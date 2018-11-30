@@ -13,7 +13,7 @@ import java.net.URL;
 
 /**
  *
- * @author Jamie
+ * @author Youssef
  */
 public class Distance {
     //int for changing price
