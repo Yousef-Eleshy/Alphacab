@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>This is expected to serve as a proper Web Page</h1>
+        <h1>Alphacab</h1>
         <form method="POST" action="UserService.do">
         <p />
             View a table <br />
