@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
 import model.Jdbc;
+import model.DistanceMatrix;
 
 /**
  *
@@ -55,6 +56,8 @@ public class AdminsHomepage extends HttpServlet {
         
         //Admin Bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
+        
+        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
         
         //If session is invalidated, redirect to index
         if (user == null) {
@@ -120,6 +123,11 @@ public class AdminsHomepage extends HttpServlet {
         //Delete a user
         else if(request.getParameter("tbl").equals("Delete")){
             request.getRequestDispatcher("/WEB-INF/deleteUser.jsp").forward(request, response);    
+        }
+        else if(request.getParameter("tbl").equals("Test")){
+            String output = distance.GetDistance("London,UK", "Bristol,UK");
+            request.setAttribute("msg", output);
+            request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);    
         }
         //If all fails, direct to admin homepage jsp
         else{

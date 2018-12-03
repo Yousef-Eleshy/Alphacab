@@ -27,8 +27,10 @@
             <input type="radio" name="tbl" value="NewUser">Register a User<br />
             <input type="radio" name="tbl" value="Update">Password Change<br />
             <input type="radio" name="tbl" value="Delete">Delete a User<br />
+            <input type="radio" name="tbl" value="Test">Test<br />
             <input type=submit value="Go!"> <br />
         </form> 
+        <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>
     </body>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
