@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Delete User</h1>
-        <a href="index.jsp">Log out</a>
+        <a href="logout.jsp">Log out</a>
         <form method="POST" action="Delete.do">   
             <table>
                 <tr>

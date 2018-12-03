@@ -13,7 +13,6 @@
     </head>
     <body>
         <h1>DB Connection could not been established!!</h1>
-         <a href="index.jsp">Log out</a>
-         <jsp:include page="foot.jsp"/>
+         <a href="logout.jsp">Back to login</a>
     </body>
 </html>

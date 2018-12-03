@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Driver;
 import model.Jdbc;
 
 /**
@@ -37,6 +39,7 @@ public class RegisterDriver extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
+        String user = (String) session.getAttribute("loggedInUser");
         
         //Useful queries
         String [] query = new String[4];
@@ -45,10 +48,17 @@ public class RegisterDriver extends HttpServlet {
         query[2] = (String)request.getParameter("registration");
         query[3] = (String)request.getParameter("name");
       
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
+        Driver driver = (Driver)session.getAttribute("dbbean3"); 
+        
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+        
         
         //If connection fails, display error
-        if (jdbc == null)
+        if (driver == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         //If username = null, display error
@@ -57,17 +67,16 @@ public class RegisterDriver extends HttpServlet {
         } 
         
         //If username is already taken, display message
-        else if(jdbc.existsDriver(query[0])){
+        else if(driver.existsDriver(query[0])){
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         //Register the new driver
         else{
-            jdbc.insertDriver(query);
+            driver.insertDriver(query);
             request.setAttribute("message", query[0]+" has been registered successfully!");
         }
         
         //Direct to register driver jsp
-        request.setAttribute("back", "admin");
         request.getRequestDispatcher("/WEB-INF/registerDriver.jsp").forward(request, response);
     }
 

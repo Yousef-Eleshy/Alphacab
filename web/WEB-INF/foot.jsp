@@ -6,22 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%
-    String str;
-    if ((String) request.getAttribute("back") == "login") {
-        str = "index.jsp";
-    } 
-    else if ((String) request.getAttribute("back") == "admin") {
-        str = "adminHomepage.jsp";
-    } 
-    
-    else if ((String) request.getAttribute("back") == "driver") {
-        str = "driverHomepage.jsp";
-    } 
 
-    else{
-        str = "index.jsp";
-    }
-%>
+<button onclick="goBack()">Go Back</button>
 
-<a href=<%=str%>> Back </a>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
