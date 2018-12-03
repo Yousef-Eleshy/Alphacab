@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Customer;
+import model.Driver;
 import model.Jdbc;
 
 
@@ -41,15 +44,25 @@ public class UserServLet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-        Jdbc dbBean = new Jdbc();
+//        Jdbc dbBean = new Jdbc();
+//        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
+//        session.setAttribute("dbbean", dbBean);
+        
+        Customer dbBean = new Customer();
         dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean", dbBean);
         
+        Admin dbBean2 = new Admin();
+        dbBean2.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dbbean2", dbBean2);
         
+        Driver dbBean3 = new Driver();
+        dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dbbean3", dbBean3);
+                
         if((Connection)request.getServletContext().getAttribute("connection")==null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
- 
         else if(request.getParameter("tbl").equals("NewUser")){
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
         } 

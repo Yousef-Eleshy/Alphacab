@@ -1,5 +1,5 @@
 <%-- 
-    Document   : bookDriver
+    Document   : bookDemands
     Created on : 22-Nov-2018, 11:44:04
     Author     : Sean
 --%>
@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Book Demands</h1>
-        <a href="index.jsp">Log out</a>
+        <a href="logout.jsp">Log out</a>
     </body>
     <body>
         <h2>Demands</h2>
