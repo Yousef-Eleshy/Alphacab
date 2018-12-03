@@ -22,7 +22,7 @@ public class DistanceMatrix {
     //int for changing price
     public static int newprice;
     //calculate the distance
-    public String GetDistance(String origin, String destination) throws MalformedURLException, IOException {
+    public String getDistance(String origin, String destination) throws MalformedURLException, IOException {
        
         URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+origin+"&destinations="+destination+"&key=AIzaSyCL6YJdl1YfNYO91hv_tgVCILZbJGB8vw0");
         //URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Cornwall,UK&destinations=London,UK&key=AIzaSyCL6YJdl1YfNYO91hv_tgVCILZbJGB8vw0");
@@ -50,6 +50,13 @@ public class DistanceMatrix {
     public int decreasePrice() {
         newprice -= 2;
         return newprice;
+    }
+    
+    public int calculatePrice(Integer distance){
+        
+        int fee = distance * 2; 
+              
+        return fee;
     }
 
     

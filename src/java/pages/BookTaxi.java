@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
+import model.DistanceMatrix;
 import model.Jdbc;
 
 /**
@@ -50,6 +51,8 @@ public class BookTaxi extends HttpServlet {
         //Get database     
         Customer customer = (Customer) session.getAttribute("dbbean");
         
+        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        
         //If session is invalidated, redirect to index
         if (user == null) {
             request.setAttribute("msg", "Session has ended.  Please login.");
@@ -63,7 +66,10 @@ public class BookTaxi extends HttpServlet {
         
         //Book the customer's taxi
         else {
-            customer.bookTaxi(query);
+            Integer theDistance = Integer.parseInt(distance.getDistance(query[1],query[2]));
+            Integer fee = distance.calculatePrice(theDistance);
+            
+            customer.bookTaxi(query, fee);
             request.setAttribute("msg", "Your request has been inputted, the price is: ");
         }    
         //Direct to customer homepage jsp

@@ -124,11 +124,6 @@ public class AdminsHomepage extends HttpServlet {
         else if(request.getParameter("tbl").equals("Delete")){
             request.getRequestDispatcher("/WEB-INF/deleteUser.jsp").forward(request, response);    
         }
-        else if(request.getParameter("tbl").equals("Test")){
-            String output = distance.GetDistance("London,UK", "Bristol,UK");
-            request.setAttribute("msg", output);
-            request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);    
-        }
         //If all fails, direct to admin homepage jsp
         else{
             request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);
