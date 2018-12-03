@@ -1,7 +1,7 @@
 <%-- 
     Document   : passwdChange
-    Created on : 11-Mar-2016, 01:02:16
-    Author     : me-aydin
+    Created on : 05-Nov-2018, 15:18:08
+    Author     : Sean
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -52,6 +52,6 @@
         <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>
     </body>
     <body>
-    <jsp:include page="foot.jsp"/>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>

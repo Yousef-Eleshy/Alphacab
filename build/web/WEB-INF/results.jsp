@@ -1,7 +1,7 @@
 <%-- 
     Document   : results
     Created on : 30-Oct-2015, 10:02:53
-    Author     : me-aydin
+    Author     : Sean
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

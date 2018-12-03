@@ -13,6 +13,7 @@ import java.net.URL;
 
 /**
  *
+<<<<<<< HEAD
  * @author Youssef 
  */
 public class Distance {
@@ -20,6 +21,16 @@ public class Distance {
     public static int newprice;
     //calculate the distance
     public double GetDistance(String origin, String destination) throws MalformedURLException, IOException {
+=======
+ * @author Youssef
+ */
+public class Distance {
+    //int for changing price
+    public static int newprice;
+    //calculate the distance
+    public double GetDistance(String origin, String destination) throws MalformedURLException, IOException {
+       
+>>>>>>> master
         origin = origin.replace(" ", "+");
         destination = destination.replace(" ", "+");
         URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "+UK&destinations=" + destination + "+UK" + "&key=AIzaSyCL6YJdl1YfNYO91hv_tgVCILZbJGB8vw0");
@@ -41,8 +52,16 @@ public class Distance {
                 outputString = (String) outputString.subSequence(colonIndex + 3, kIndex);
                 return Double.parseDouble(outputString);
             }
+<<<<<<< HEAD
 
         }
+=======
+            
+            
+
+        }
+        
+>>>>>>> master
         return 0;
     }
     //increase price by £2

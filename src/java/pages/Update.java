@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Customer;
+import model.Driver;
 import model.Jdbc;
 
 /**
  *
- * @author me-aydin
+ * @author Sean
  */
 public class Update extends HttpServlet {
 
@@ -35,6 +38,7 @@ public class Update extends HttpServlet {
        
         //Get the login session
         HttpSession session = request.getSession();
+        String user = (String) session.getAttribute("loggedInUser");
         
         //Useful queries
         String [] query = new String[5];
@@ -44,10 +48,20 @@ public class Update extends HttpServlet {
         query[3] = (String)request.getParameter("currentPassword");
         query[4] = (String)request.getParameter("usertype");
         
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
+        Customer customer = (Customer) session.getAttribute("dbbean"); 
         
+        Admin admin = (Admin) session.getAttribute("dbbean2"); 
+        
+        Driver driver = (Driver) session.getAttribute("dbbean3");
+        
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+              
         //If connection fails, display error message
-        if (jdbc == null)
+        if (customer == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
 
         //Check password length is appropriate
@@ -64,36 +78,36 @@ public class Update extends HttpServlet {
         //Check administrator credentials
         if (query[4].equals("Administrator"))
         {
-            if (!jdbc.existsAdmin(query[0]))
+            if (!admin.existsAdmin(query[0]))
             {
                 request.setAttribute("msg", query[0]+" The inputted username does not exist");
             }
             else{
-                jdbc.updateAdmin(query);     
+                admin.updateAdmin(query);     
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
             }
         }
 
         //Check customer credentials
         else if (query[4].equals("Customer")){
-            if (!jdbc.existsCustomer(query[0]))
+            if (!customer.existsCustomer(query[0]))
             {
                 request.setAttribute("msg", query[0]+" The inputted username does not exist");
             }
             else{
-                jdbc.updateCustomer(query);     
+                customer.updateCustomer(query);     
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
             }
         }
 
         //Check driver credentials
         else if (query[4].equals("Driver")){
-            if (!jdbc.existsDriver(query[0]))
+            if (!driver.existsDriver(query[0]))
             {
                 request.setAttribute("msg", query[0]+" The inputted username does not exist");
             }
             else{
-                jdbc.updateDriver(query);     
+                driver.updateDriver(query);     
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
             }
         }

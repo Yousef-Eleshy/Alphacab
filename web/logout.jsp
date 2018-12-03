@@ -6,10 +6,10 @@
         <title>Logout</title>
     </head>
     <body>
-        <h1>Logout successful!</h1>
         <%
+            session.removeAttribute("loggedInUser"); 
             session.invalidate();
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.jsp");           
         %>
     </body>
 </html>

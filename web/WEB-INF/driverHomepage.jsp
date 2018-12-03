@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>My Journeys</h1>
-        <a href="index.jsp">Log out</a>
+        <a href="logout.jsp">Log out</a>
         <form method="POST" action="DriverHomepage.do">
         <p />
             View a table <br />
@@ -23,8 +23,5 @@
     </body>
     <body>
         <%=(String)(request.getAttribute("query"))%>
-    </body>
-    <body>
-        <jsp:include page="foot.jsp"/>
     </body>
 </html>

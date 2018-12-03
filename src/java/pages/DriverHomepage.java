@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//Author Sean
 package pages;
 
 import java.io.IOException;
@@ -19,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.Driver;
 import model.Jdbc;
 
 /**
@@ -51,10 +52,7 @@ public class DriverHomepage extends HttpServlet {
         //Useful queries
         String qry1 = "SELECT Journey.JID, Journey.ID, Journey.Address, Journey.Destination, Journey.Distance, Journey.Time FROM journey LEFT JOIN Drivers ON Drivers.Registration = Journey.Registration WHERE Drivers.Username='"+user+"' AND Journey.Status='Booked' AND Journey.Date = '"+date+"'";
         
-        //Database connection
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);
+        Driver driver = (Driver) session.getAttribute("dbbean3");
         
         //If connection fails, display error
         if((Connection)request.getServletContext().getAttribute("connection")==null)
@@ -65,16 +63,15 @@ public class DriverHomepage extends HttpServlet {
             
             String msg="No Demands";
             try {
-                msg = dbBean.retrieve(qry1);
+                msg = driver.retrieve(qry1);
             } catch (SQLException ex) {
                 Logger.getLogger(DriverHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("query", msg);
             request.getRequestDispatcher("/WEB-INF/driverHomepage.jsp").forward(request, response);
         }
-        
+                
         //Direct to driver homepage jsp
-        request.setAttribute("back", "driver");
         request.getRequestDispatcher("/WEB-INF/driverHomepage.jsp").forward(request, response);
     }
 

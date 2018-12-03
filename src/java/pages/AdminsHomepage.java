@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//Author Sean
 package pages;
 
 import java.io.IOException;
@@ -18,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Customer;
 import model.Jdbc;
 
 /**
@@ -41,7 +42,8 @@ public class AdminsHomepage extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
-       
+        String user = (String) session.getAttribute("loggedInUser");
+        
         //Useful queries
         String qry1 = "select * from CUSTOMER";
         String qry2 = "select * from DRIVERS";
@@ -51,10 +53,14 @@ public class AdminsHomepage extends HttpServlet {
         //String qry5 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers LEFT JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";  
         
         
-        //Connect to database
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);
+        //Admin Bean
+        Admin admin = (Admin) session.getAttribute("dbbean2");
+        
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         
         //If connection fails, display connection error
         if((Connection)request.getServletContext().getAttribute("connection")==null)
@@ -64,7 +70,7 @@ public class AdminsHomepage extends HttpServlet {
         if (request.getParameter("tbl").equals("ListCustomers")){
             String msg="No customers";
             try {
-                msg = dbBean.retrieve(qry1);
+                msg = admin.retrieve(qry1);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -74,7 +80,7 @@ public class AdminsHomepage extends HttpServlet {
         else if (request.getParameter("tbl").equals("ListDrivers")){
             String msg="No drivers";
             try {
-                msg = dbBean.retrieve(qry2);
+                msg = admin.retrieve(qry2);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -87,9 +93,9 @@ public class AdminsHomepage extends HttpServlet {
             String msg2="No journeys";
             String msg3="No drivers";
             try {
-                msg = dbBean.retrieve(qry3);
-                msg2 = dbBean.retrieve(qry5);
-                msg3 = dbBean.retrieve(qry2);
+                msg = admin.retrieve(qry3);
+                msg2 = admin.retrieve(qry5);
+                msg3 = admin.retrieve(qry2);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -111,11 +117,14 @@ public class AdminsHomepage extends HttpServlet {
         else if(request.getParameter("tbl").equals("RegisterDriver")){
             request.getRequestDispatcher("/WEB-INF/registerDriver.jsp").forward(request, response);    
         }
+        //Delete a user
+        else if(request.getParameter("tbl").equals("Delete")){
+            request.getRequestDispatcher("/WEB-INF/deleteUser.jsp").forward(request, response);    
+        }
         //If all fails, direct to admin homepage jsp
         else{
             request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);
         }
-        request.setAttribute("back", "login");
         request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);
         
     }

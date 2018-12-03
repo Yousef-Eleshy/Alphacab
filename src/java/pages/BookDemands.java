@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
 import model.Jdbc;
 
 /**
@@ -42,6 +43,7 @@ public class BookDemands extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
+        String user = (String) session.getAttribute("loggedInUser");
         
         //Useful queries
         String qry1 = "select * from DRIVERS";
@@ -59,14 +61,18 @@ public class BookDemands extends HttpServlet {
         query[6] = (String) request.getParameter("registration");
         query[7] = (String) request.getParameter("id");
         
-        //Connect to database
-        Jdbc dbBean = new Jdbc();
-        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
-        session.setAttribute("dbbean", dbBean);        
-        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
+        
+        Admin admin = (Admin) session.getAttribute("dbbean2");
 
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+        
+        
         //If connection fails, display error
-        if (jdbc == null) {
+        if (admin == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         //If username field is empty, display message
@@ -75,8 +81,8 @@ public class BookDemands extends HttpServlet {
         }
         //Insert the demand
         else{
-            jdbc.insertDemand(query);
-            jdbc.updateDemandStatus(query[7]);
+            admin.insertDemand(query);
+            admin.updateDemandStatus(query[7]);
             request.setAttribute("msg", "Booked!");
         }
         
@@ -85,9 +91,9 @@ public class BookDemands extends HttpServlet {
         String msg2 = "No current journeys";
         String msg3 = "No current drivers";      
         try{
-            msg = dbBean.retrieve(qry2);
-            msg2 = dbBean.retrieve(qry3);
-            msg3 = dbBean.retrieve(qry1);                
+            msg = admin.retrieve(qry2);
+            msg2 = admin.retrieve(qry3);
+            msg3 = admin.retrieve(qry1);                
         }catch(SQLException ex){
             Logger.getLogger(BookDemands.class.getName()).log(Level.SEVERE, null, ex);            
         }
@@ -96,7 +102,6 @@ public class BookDemands extends HttpServlet {
         request.setAttribute("query2", msg3);
         
         //Direct to book demands jsp
-        request.setAttribute("back", "admin");
         request.getRequestDispatcher("/WEB-INF/bookDemands.jsp").forward(request, response);
     }
 
