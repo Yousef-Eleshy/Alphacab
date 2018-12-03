@@ -13,10 +13,10 @@ import java.net.URL;
 
 /**
  *
- * @author Youssef
+ * @author Youssef 
  */
 public class Distance {
-    //int for changing price
+    //int for the price change
     public static int newprice;
     //calculate the distance
     public double GetDistance(String origin, String destination) throws MalformedURLException, IOException {
