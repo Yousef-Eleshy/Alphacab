@@ -21,9 +21,9 @@ public class Distance {
     //calculate the distance
     public double GetDistance(String origin, String destination) throws MalformedURLException, IOException {
        
-        origin = origin.replace(" ", "+");
-        destination = destination.replace(" ", "+");
-        URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "+UK&destinations=" + destination + "+UK" + "&key=AIzaSyCL6YJdl1YfNYO91hv_tgVCILZbJGB8vw0");
+        origin = "London";
+        destination = "Bristol";
+        URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins" + origin + ",UK+destination=" + destination + ",UK&key=AIzaSyCL6YJdl1YfNYO91hv_tgVCILZbJGB8vw0");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         String line, outputString = "";
