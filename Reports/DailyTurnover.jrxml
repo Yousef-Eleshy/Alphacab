@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1bc05559-ff18-4a96-94c4-c214f794ff72">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM ROOT.JOURNEY]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ADDRESS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESTINATION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DISTANCE" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="REGISTRATION" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DATE" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TIME" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PRICE" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="STATUS" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="PRICE_SUM" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{PRICE}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="431" height="49" uuid="88f53f46-7011-4e3e-8435-1f71b27d3880"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="36"/>
+				</textElement>
+				<text><![CDATA[Alphacab Daily Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="49" height="20" uuid="e30be468-8449-493e-bcda-168ff8c419b2"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="2" width="100" height="20" uuid="6bb418ad-6ea7-49a7-9317-458b73784563"/>
+				<text><![CDATA[ADDRESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="2" width="100" height="20" uuid="cadf8c05-380e-4e0a-aaf6-eb84c8be9cc2"/>
+				<text><![CDATA[DESTINATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="2" width="63" height="20" uuid="cef1f119-3a1f-48d1-93eb-b760b93a0e23"/>
+				<text><![CDATA[DISTANCE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="2" width="50" height="20" uuid="1ff31858-5584-4fd7-a3ff-090630d49c61"/>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="2" width="100" height="20" uuid="e15ebccf-1da8-430a-be58-18e5363adc3a"/>
+				<text><![CDATA[PRICE (£) With VAT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="4" y="0" width="45" height="20" uuid="148e1278-7526-4bd8-816f-78edd8d031e8"/>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="0" width="100" height="20" uuid="7ef34b1e-05b5-4f0a-bd66-e01113ee42e3"/>
+				<textFieldExpression><![CDATA[$F{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="100" height="20" uuid="720dd2a7-5328-43a7-b57b-78f1a54cf204"/>
+				<textFieldExpression><![CDATA[$F{DESTINATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="264" y="0" width="63" height="20" uuid="42c4631a-a670-4836-b8d3-625030d9a10d"/>
+				<textFieldExpression><![CDATA[$F{DISTANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="0" width="50" height="20" uuid="b4fc6061-f255-4f7f-855e-49dffabc8a5c"/>
+				<textFieldExpression><![CDATA[$F{DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="94906724-ae1e-4551-ab69-c9ea6d0dd362"/>
+				<textFieldExpression><![CDATA[$F{PRICE}*10/100+$F{PRICE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
