@@ -49,11 +49,11 @@ public class NewUser extends HttpServlet {
         query[4] = (String)request.getParameter("address");
       
         
-        //If session is invalidated, redirect to index
-        if (user == null) {
-            request.setAttribute("Error", "Session has ended.  Please login.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
+//        //If session is invalidated, redirect to index
+//        if (user == null) {
+//            request.setAttribute("Error", "Session has ended.  Please login.");
+//            request.getRequestDispatcher("index.jsp").forward(request, response);
+//        }
         
         //If connection fails, display error message
         if (customer == null)

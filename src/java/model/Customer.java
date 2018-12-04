@@ -152,7 +152,7 @@ public class Customer {
     }
     
     //Book a taxi
-    public void bookTaxi(String[] str, Integer fee){
+    public void bookTaxi(String[] str, Double fee){
         PreparedStatement ps = null;
         try {      
             Statement stmt = connection.createStatement();
@@ -168,7 +168,7 @@ public class Customer {
             ps.setString(4, str[3]);
             ps.setString(5, str[4]);
             ps.setString(6, "Outstanding");
-            ps.setInt(7, fee);
+            ps.setDouble(7, fee);
             ps.setInt(8, (count+1));
             ps.executeUpdate(); 
             //connection.commit();

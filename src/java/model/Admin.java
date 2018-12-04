@@ -167,10 +167,10 @@ public class Admin {
             
         }
         return flag;
-    }
+    } 
     
     //Insert a demand
-    public void insertDemand(String[] str){
+    public void insertDemand(String[] str, Double fee, Double distance){
         PreparedStatement ps = null;
         try {
             Statement stmt = connection.createStatement();
@@ -184,16 +184,17 @@ public class Admin {
             rs2.next();
             int id = rs2.getInt("custID");
             
-            ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (count+1));           
             ps.setInt(2, id);
             ps.setString(3, str[1]);
             ps.setString(4, str[2]);
-            ps.setInt(5, 5);
+            ps.setDouble(5, distance);
             ps.setString(6, str[6]);
             ps.setString(7, str[3]);
             ps.setString(8, str[4]);
-            ps.setString(9, "Booked");
+            ps.setDouble(9,fee);
+            ps.setString(10, "Booked");
             ps.executeUpdate(); 
             //connection.commit();
             ps.close();

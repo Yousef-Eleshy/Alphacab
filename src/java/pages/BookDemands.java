@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
+import model.DistanceMatrix;
 import model.Jdbc;
 
 /**
@@ -45,6 +46,8 @@ public class BookDemands extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        Admin admin = (Admin) session.getAttribute("dbbean2");
         //Useful queries
         String qry1 = "select * from DRIVERS";
         String qry2 = "select * from DEMANDS where Status='Outstanding'";
@@ -61,8 +64,6 @@ public class BookDemands extends HttpServlet {
         query[6] = (String) request.getParameter("registration");
         query[7] = (String) request.getParameter("id");
         
-        
-        Admin admin = (Admin) session.getAttribute("dbbean2");
 
         //If session is invalidated, redirect to index
         if (user == null) {
@@ -81,7 +82,9 @@ public class BookDemands extends HttpServlet {
         }
         //Insert the demand
         else{
-            admin.insertDemand(query);
+            Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
+            Double fee = distance.calculatePrice(theDistance);
+            admin.insertDemand(query,fee,theDistance);
             admin.updateDemandStatus(query[7]);
             request.setAttribute("msg", "Booked!");
         }

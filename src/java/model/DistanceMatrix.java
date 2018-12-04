@@ -51,9 +51,9 @@ public class DistanceMatrix {
         return newprice;
     }
     
-    public int calculatePrice(Integer distance){
+    public double calculatePrice(Double distance){
         
-        int fee = distance * 2; 
+        Double fee = distance * 2; 
               
         return fee;
     }
