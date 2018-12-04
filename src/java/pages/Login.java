@@ -51,13 +51,7 @@ public class Login extends HttpServlet {
         Admin admin = (Admin) session.getAttribute("dbbean2"); 
         
         Driver driver = (Driver) session.getAttribute("dbbean3");
-        
-        //If session is invalidated, redirect to index
-        if (user == null) {
-            request.setAttribute("Error", "Session has ended.  Please login.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        }       
-        
+            
         //If connection fails, display error
         if (customer == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
