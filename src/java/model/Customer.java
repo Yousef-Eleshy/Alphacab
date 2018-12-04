@@ -134,7 +134,7 @@ public class Customer {
     }
     
     //Book a taxi
-    public void bookTaxi(String[] str){
+    public void bookTaxi(String[] str, Integer fee){
         PreparedStatement ps = null;
         try {      
             Statement stmt = connection.createStatement();
@@ -143,14 +143,15 @@ public class Customer {
             int count = rs.getInt("rowcount");
             rs.close();
             
-            ps = connection.prepareStatement("INSERT INTO Demands VALUES (?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO Demands VALUES (?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, str[0].trim()); 
             ps.setString(2, str[1]);
             ps.setString(3, str[2]);
             ps.setString(4, str[3]);
             ps.setString(5, str[4]);
             ps.setString(6, "Outstanding");
-            ps.setInt(7, (count+1));
+            ps.setInt(7, fee);
+            ps.setInt(8, (count+1));
             ps.executeUpdate(); 
             //connection.commit();
             ps.close();

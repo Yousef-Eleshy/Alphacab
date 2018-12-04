@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
 import model.Driver;
+import model.DistanceMatrix;
 import model.Jdbc;
 
 
@@ -59,6 +60,10 @@ public class UserServLet extends HttpServlet {
         Driver dbBean3 = new Driver();
         dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean3", dbBean3);
+        
+        DistanceMatrix dbBean4 = new DistanceMatrix();
+        dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
+        session.setAttribute("dbbean4", dbBean4);
                 
         if((Connection)request.getServletContext().getAttribute("connection")==null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
