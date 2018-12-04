@@ -6,16 +6,18 @@
 package pages;
 
 import java.io.IOException;
+import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Customer;
 import model.Jdbc;
 
 /**
  *
- * @author me-aydin
+ * @author Sean
  */
 public class NewUser extends HttpServlet {
 
@@ -34,6 +36,9 @@ public class NewUser extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
+        String user = (String) session.getAttribute("loggedInUser");
+        
+        Customer customer = (Customer)session.getAttribute("dbbean2"); 
         
         //Useful queries
         String [] query = new String[5];
@@ -42,11 +47,16 @@ public class NewUser extends HttpServlet {
         query[2] = (String)request.getParameter("confPassword");
         query[3] = (String)request.getParameter("name");
         query[4] = (String)request.getParameter("address");
-       
-        Jdbc jdbc = (Jdbc)session.getAttribute("dbbean"); 
+      
+        
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         
         //If connection fails, display error message
-        if (jdbc == null)
+        if (customer == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         //If no username inputted, display error
@@ -54,7 +64,7 @@ public class NewUser extends HttpServlet {
             request.setAttribute("message", "Username cannot be NULL");
         } 
         //If username is already taken, display error
-        else if(jdbc.existsCustomer(query[0])){
+        else if(customer.existsCustomer(query[0])){
             request.setAttribute("message", query[0]+" is already taken as username");
         }
         //If username = password, display error
@@ -68,12 +78,11 @@ public class NewUser extends HttpServlet {
         }
         //Create the customer
         else {          
-            jdbc.insertCustomer(query);
+            customer.insertCustomer(query);
             request.setAttribute("message", query[0]+" has been registered successfully!");
         }
          
         //Direct to user jsp
-        request.setAttribute("back", "login");
         request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
     }
 

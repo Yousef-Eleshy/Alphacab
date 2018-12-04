@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Customer;
+import model.DistanceMatrix;
 import model.Jdbc;
 
 /**
@@ -36,7 +38,8 @@ public class BookTaxi extends HttpServlet {
 
         //Get the login session
         HttpSession session = request.getSession();
-
+        String user = (String) session.getAttribute("loggedInUser");
+        
         //Useful queries
         String[] query = new String[5];
         query[0] = (String) request.getParameter("name");
@@ -46,20 +49,30 @@ public class BookTaxi extends HttpServlet {
         query[4] = (String) request.getParameter("time");
 
         //Get database     
-        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
+        Customer customer = (Customer) session.getAttribute("dbbean");
+        
+        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        
+        //If session is invalidated, redirect to index
+        if (user == null) {
+            request.setAttribute("msg", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         
         //If connection fails, display error
-        if (jdbc == null) {
+        if (customer == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         
         //Book the customer's taxi
         else {
-            jdbc.bookTaxi(query);
-            request.setAttribute("msg", "Your request has been inputted");
+            Integer theDistance = Integer.parseInt(distance.getDistance(query[1],query[2]));
+            Integer fee = distance.calculatePrice(theDistance);
+            
+            customer.bookTaxi(query, fee);
+            request.setAttribute("msg", "Your request has been inputted, the price is: ");
         }    
         //Direct to customer homepage jsp
-        request.setAttribute("back", "login");
         request.getRequestDispatcher("/WEB-INF/customerHomepage.jsp").forward(request, response);
               
     }

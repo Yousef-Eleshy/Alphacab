@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Customer;
+import model.Driver;
 import model.Jdbc;
 
 /**
  *
- * @author me-aydin
+ * @author Sean
  */
 public class Login extends HttpServlet {
 
@@ -35,17 +38,22 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         HttpSession session = request.getSession(false);
-
+        String user = (String) session.getAttribute("loggedInUser");
+        
         //Useful queries
         String[] query = new String[3];
         query[0] = (String) request.getParameter("username");
         query[1] = (String) request.getParameter("password");
         query[2] = (String) request.getParameter("usertype");
 
-        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
-
+        Customer customer = (Customer) session.getAttribute("dbbean"); 
+        
+        Admin admin = (Admin) session.getAttribute("dbbean2"); 
+        
+        Driver driver = (Driver) session.getAttribute("dbbean3");
+            
         //If connection fails, display error
-        if (jdbc == null) {
+        if (customer == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         } 
         //If username is null, display error msg
@@ -55,12 +63,12 @@ public class Login extends HttpServlet {
 
         //Check administrator login credentials
         if (query[2].equals("Administrator")) {
-            if (!jdbc.existsAdmin(query[0])) {
+            if (!admin.existsAdmin(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
             }
-            else if (!jdbc.checkAdminPassword(query[0], query[1])) {
+            else if (!admin.checkAdminPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
-            } else if (jdbc.checkAdminPassword(query[0], query[1])) {
+            } else if (admin.checkAdminPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Login succesful!");
                 request.getSession().setAttribute("loggedInUser",query[0]);
                 request.getRequestDispatcher("/WEB-INF/administratorHomepage.jsp").forward(request, response);
@@ -68,11 +76,11 @@ public class Login extends HttpServlet {
         } 
         //Check customer login credentials
         else if (query[2].equals("Customer")) {
-            if (!jdbc.existsCustomer(query[0])) {
+            if (!customer.existsCustomer(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
-            } else if (!jdbc.checkCustomerPassword(query[0], query[1])) {
+            } else if (!customer.checkCustomerPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
-            } else if (jdbc.checkCustomerPassword(query[0], query[1])) {
+            } else if (customer.checkCustomerPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Login succesful!");
                 request.getSession().setAttribute("loggedInUser",query[0]);
                 request.getRequestDispatcher("/WEB-INF/customerHomepage.jsp").forward(request, response);
@@ -80,11 +88,11 @@ public class Login extends HttpServlet {
         } 
         //Check driver login credentials
         else if (query[2].equals("Driver")) {
-            if (!jdbc.existsDriver(query[0])) {
+            if (!driver.existsDriver(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
-            } else if (!jdbc.checkDriverPassword(query[0], query[1])) {
+            } else if (!driver.checkDriverPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
-            } else if (jdbc.checkDriverPassword(query[0], query[1])) {
+            } else if (driver.checkDriverPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Login succesful!");
                 request.getSession().setAttribute("loggedInUser",query[0]);
                 request.getRequestDispatcher("/WEB-INF/driverHomepage.jsp").forward(request, response);

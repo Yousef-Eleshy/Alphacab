@@ -1,10 +1,9 @@
 <%-- 
     Document   : driver
     Created on : 01-Nov-2015, 15:18:08
-    Author     : me-aydin
+    Author     : Sean
 --%>
 
-<%@page import="model.Jdbc"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -58,6 +57,6 @@
         </br>
     </body>
     <body>
-    <jsp:include page="foot.jsp"/>
+    <a href="index.jsp">Back</a>
     </body>
 </html>

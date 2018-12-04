@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Admin;
+import model.Customer;
+import model.Driver;
 import model.Jdbc;
 
 /**
  *
- * @author me-aydin
+ * @author Sean
  */
 @WebServlet(name = "Delete", urlPatterns = {"/Delete.do"})
 public class Delete extends HttpServlet {
@@ -37,7 +40,8 @@ public class Delete extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
-
+        String user = (String) session.getAttribute("loggedInUser").toString();
+        
         //Useful queries
         String[] query = new String[2];
         query[0] = (String) request.getParameter("username");
@@ -45,10 +49,21 @@ public class Delete extends HttpServlet {
         query[2] = (String) request.getParameter("confPassword");
         query[3] = (String) request.getParameter("usertype");
 
-        Jdbc jdbc = (Jdbc) session.getAttribute("dbbean");
+        Customer customer = (Customer) session.getAttribute("dbbean"); 
+        
+        Admin admin = (Admin) session.getAttribute("dbbean2"); 
+        
+        Driver driver = (Driver) session.getAttribute("dbbean3");
+        
+        
+        //If session is invalidated, redirect to index
+        if (user == "") {
+            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
         
         //If connection fails, display error
-        if (jdbc == null) {
+        if (customer == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         } 
         //If username is null, display error
@@ -58,54 +73,53 @@ public class Delete extends HttpServlet {
         //Check credentials inputted for administrator usertype, if authorized then delete
         if (query[2].equals("Administrator")) {
 
-            if (!jdbc.existsAdmin(query[0])) {
+            if (!admin.existsAdmin(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
             }
-            else if (!jdbc.checkAdminPassword(query[0], query[1])) {
+            else if (!admin.checkAdminPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
             } 
             else if (!query[1].equals(query[2])){
                 request.setAttribute("msg", "Passwords do not match");
             }
-            else if (jdbc.checkAdminPassword(query[0], query[1])) {
-                jdbc.deleteAdmin(query[0]);
+            else if (admin.checkAdminPassword(query[0], query[1])) {
+                admin.deleteAdmin(query[0]);
                 request.setAttribute("msg", "Deleted!");
             }
         } 
         //Check credentials inputted for customer usertype, if authorized then delete
         else if (query[2].equals("Customer")) {
-            if (!jdbc.existsCustomer(query[0])) {
+            if (!customer.existsCustomer(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
-            } else if (!jdbc.checkCustomerPassword(query[0], query[1])) {
+            } else if (!customer.checkCustomerPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
             } 
             else if (!query[1].equals(query[2])){
                 request.setAttribute("msg", "Passwords do not match");
             }
-            else if (jdbc.checkCustomerPassword(query[0], query[1])) {
-                jdbc.deleteCustomer(query[0]);
+            else if (customer.checkCustomerPassword(query[0], query[1])) {
+                customer.deleteCustomer(query[0]);
                 request.setAttribute("msg", "Deleted!");
 
             }
         } 
         //Check credentials for driver usertype, if authorized then delete
         else if (query[2].equals("Driver")) {
-            if (!jdbc.existsDriver(query[0])) {
+            if (!driver.existsDriver(query[0])) {
                 request.setAttribute("msg", query[0] + " Username does not exist");
-            } else if (!jdbc.checkDriverPassword(query[0], query[1])) {
+            } else if (!driver.checkDriverPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");
             } 
             else if (!query[1].equals(query[2])){
                 request.setAttribute("msg", "Passwords do not match");
             }
-            else if (jdbc.checkDriverPassword(query[0], query[1])) {
-                jdbc.deleteDriver(query[0]);
+            else if (driver.checkDriverPassword(query[0], query[1])) {
+                driver.deleteDriver(query[0]);
                 request.setAttribute("msg", "Deleted!");
             }
         }
 
         //Direct to delete user jsp
-        request.setAttribute("back", "login");
         request.getRequestDispatcher("/WEB-INF/deleteUser.jsp").forward(request, response);
     }
 

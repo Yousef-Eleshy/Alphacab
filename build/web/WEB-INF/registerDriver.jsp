@@ -1,7 +1,7 @@
 <%-- 
     Document   : passwdChange
-    Created on : 11-Mar-2016, 01:02:16
-    Author     : me-aydin
+    Created on : 05-Nov-2018, 15:18:08
+    Author     : Sean
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
     </head>
     <body>
         <h2>Register New Driver</h2>
-        <a href="index.jsp">Log out</a>
+        <a href="logout.jsp">Log out</a>
         <form method="POST" action="RegisterDriver.do">     
             <table>
                 <tr>
@@ -44,6 +44,6 @@
         <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>
     </body>
     <body>
-    <jsp:include page="foot.jsp"/>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>
