@@ -21,10 +21,6 @@
                     <th>Please provide your following details</th>
                 </tr>
                 <tr>
-                    <td>Name:</td>
-                    <td><input type="text" name="name"/></td>
-                </tr>
-                <tr>
                     <td>Address:</td>
                     <td><input type="text" name="address"/></td>
                 </tr>
