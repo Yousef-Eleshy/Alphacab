@@ -40,19 +40,20 @@ public class BookTaxi extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        //Get database     
+        Customer customer = (Customer) session.getAttribute("dbbean");
+        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        
+        String qry1 = customer.findCustomerName(user);
+        
         //Useful queries
         String[] query = new String[5];
-        query[0] = (String) request.getParameter("name");
+        query[0] = qry1;
         query[1] = (String) request.getParameter("address");
         query[2] = (String) request.getParameter("destination");
         query[3] = (String) request.getParameter("date");
         query[4] = (String) request.getParameter("time");
-
-        //Get database     
-        Customer customer = (Customer) session.getAttribute("dbbean");
-        
-        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
-        
+  
         //If session is invalidated, redirect to index
         if (user == null) {
             request.setAttribute("msg", "Session has ended.  Please login.");
@@ -70,7 +71,7 @@ public class BookTaxi extends HttpServlet {
             Integer fee = distance.calculatePrice(theDistance);
             
             customer.bookTaxi(query, fee);
-            request.setAttribute("msg", "Your request has been inputted, the price is: ");
+            request.setAttribute("msg", "Your request has been inputted, the price is: £"+fee.toString()+"");
         }    
         //Direct to customer homepage jsp
         request.getRequestDispatcher("/WEB-INF/customerHomepage.jsp").forward(request, response);

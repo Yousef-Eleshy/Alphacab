@@ -107,6 +107,24 @@ public class Customer {
         return bool;
     }
     
+    public String findCustomerName(String user) {
+        
+        String result = "";
+        String query = "select name from Customer where username='"+user+"'";
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()){
+                result = rs.getString("name");
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        } 
+        return result;
+    }
+    
     //Insert a customer
     public void insertCustomer(String[] str){
         PreparedStatement ps = null;

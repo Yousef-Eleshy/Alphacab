@@ -38,7 +38,7 @@ public class NewUser extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        Customer customer = (Customer)session.getAttribute("dbbean2"); 
+        Customer customer = (Customer)session.getAttribute("dbbean"); 
         
         //Useful queries
         String [] query = new String[5];
