@@ -113,6 +113,23 @@ public class Admin {
         return bool;
     }
     
+    public String findDemandDetail(String query,String detail) {
+        
+        String result = "";
+        try {
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            while (rs.next()){
+                result = rs.getString(detail);
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("way way"+e);
+            //results = e.toString();
+        } 
+        return result;
+    }
+    
         //Update an admin
     public void updateAdmin(String[] str) {
         PreparedStatement ps = null;
