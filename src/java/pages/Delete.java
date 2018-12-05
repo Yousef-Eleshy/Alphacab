@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
 import model.Driver;
-import model.Jdbc;
 
 /**
  *
@@ -58,7 +57,7 @@ public class Delete extends HttpServlet {
         
         //If session is invalidated, redirect to index
         if (user == "") {
-            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         

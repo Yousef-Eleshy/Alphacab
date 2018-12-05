@@ -63,8 +63,20 @@ public class RegisterDriver extends HttpServlet {
         
         //If username = null, display error
         if(query[0].equals("") ) {
-            request.setAttribute("message", "Username cannot be NULL");
+            request.setAttribute("message", "You must input a username for the driver");
         } 
+        
+        else if (query[1].equals("")){
+            request.setAttribute("message", "You must input a password for the driver");
+        }
+        
+        else if (query[2].equals("")){
+            request.setAttribute("message", "You must input a registratio for the drivern");
+        }
+        
+        else if (query[3].equals("")){
+            request.setAttribute("message", "You must input a name for the driver");
+        }
         
         //If username is already taken, display message
         else if(driver.existsDriver(query[0])){

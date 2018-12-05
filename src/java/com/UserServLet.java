@@ -65,6 +65,7 @@ public class UserServLet extends HttpServlet {
         dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean4", dbBean4);
                 
+        
         if((Connection)request.getServletContext().getAttribute("connection")==null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         

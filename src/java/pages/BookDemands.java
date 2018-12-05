@@ -46,58 +46,33 @@ public class BookDemands extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        //DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
         Admin admin = (Admin) session.getAttribute("dbbean2");
         //Useful queries
-        String qry1 = "select * from DRIVERS";
+        String qry1 = "select name, registration from DRIVERS";
         String qry2 = "select * from DEMANDS where Status='Outstanding'";
         String qry3 = "select * from JOURNEY";
         
         //String qry6 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers LEFT JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";
         
-        String queryID = (String) request.getParameter("id");
+        //String queryID = (String) request.getParameter("id");
         
-       // String qry4 = "select name from DEMANDS where id ="+queryID+"";
- 
-        String[] query = new String[7];
-        //query[0] = (String) request.getParameter("name");
-//        query[1] = (String) request.getParameter("address");
-//        query[2] = (String) request.getParameter("destination");
-//        query[3] = (String) request.getParameter("date");
-//        query[4] = (String) request.getParameter("time");
+        String[] query = new String[2];
+        
+        query[0] = (String) request.getParameter("id");
+        query[1] = (String) request.getParameter("registration");
+//        query[0] = admin.findDemandDetail(("select name from DEMANDS where id ="+queryID+""),"name");
+//        query[1] = admin.findDemandDetail(("select address from DEMANDS where id ="+queryID+""),"address");
+//        query[2] = admin.findDemandDetail(("select destination from DEMANDS where id ="+queryID+""),"destination");
+//        query[3] = admin.findDemandDetail(("select date from DEMANDS where id ="+queryID+""),"date");
+//        query[4] = admin.findDemandDetail(("select time from DEMANDS where id ="+queryID+""),"time");    
 //        query[5] = "SELECT ID FROM Customer WHERE name = '"+query[0]+"'";
 //        query[6] = (String) request.getParameter("registration");
-//        query[7] = (String) request.getParameter("id");
-        
-//        query[0] = admin.findDemandDetail("select name from DEMANDS where id ='"+query[7]+"'","name");
-//        query[1] = admin.findDemandDetail("select address from DEMANDS where id ='"+query[7]+"'","address");
-//        query[2] = admin.findDemandDetail("select destination from DEMANDS where id ='"+query[7]+"'","destination");
-//        query[3] = admin.findDemandDetail("select date from DEMANDS where id ='"+query[7]+"'","date");
-//        query[4] = admin.findDemandDetail("select time from DEMANDS where id ='"+query[7]+"'","time");    
-//        query[5] = "SELECT ID FROM Customer WHERE name = '"+query[0]+"'";
-//        query[6] = (String) request.getParameter("registration");
-//        query[7] = (String) request.getParameter("id");
-        
-        query[0] = admin.findDemandDetail(("select name from DEMANDS where id ="+queryID+""),"name");
-        query[1] = admin.findDemandDetail(("select address from DEMANDS where id ="+queryID+""),"address");
-        query[2] = admin.findDemandDetail(("select destination from DEMANDS where id ="+queryID+""),"destination");
-        query[3] = admin.findDemandDetail(("select date from DEMANDS where id ="+queryID+""),"date");
-        query[4] = admin.findDemandDetail(("select time from DEMANDS where id ="+queryID+""),"time");    
-        query[5] = "SELECT ID FROM Customer WHERE name = '"+query[0]+"'";
-        query[6] = (String) request.getParameter("registration");
-        
-       // String qry4 = admin.findDemandDetail("select name from DEMANDS where id ='"+query[7]+"'","time");
-       // String qry5 = admin.findDemandDetail("select address from DEMANDS where id ='"+query[7]+"'","time");
-        //String qry6 = admin.findDemandDetail("select destination from DEMANDS where id ='"+query[7]+"'","time");
-       // String qry7 = admin.findDemandDetail("select date from DEMANDS where id ='"+query[7]+"'","time");
-        //String qry8 = admin.findDemandDetail("select time from DEMANDS where id ='"+query[7]+"'","time");
-        
-        
-        
+//       
         
         //If session is invalidated, redirect to index
         if (user == null) {
-            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         
@@ -106,16 +81,31 @@ public class BookDemands extends HttpServlet {
         if (admin == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
-//        //If username field is empty, display message
-//        if (query[0].equals("")) {
-//            request.setAttribute("msg", query[0]);   
-//        }
+        //If demand ID field is empty, display message
+        if (query[0].equals("")) {
+            request.setAttribute("msg", "Please input the demand you would like to book");   
+        }
+        //If driver registration field is empty, display a message
+        else if (query[1].equals("")){
+            request.setAttribute("msg", "Please input a driver's registration"); 
+        }
+        
+        //If the inputted demand does not exist, display a message
+        else if (!admin.existsDemand(query[0])){
+            request.setAttribute("msg", "No demand found for the inputted demand ID");
+        }
+        
+        //If the inputted registration is not valid, display a message
+        else if (!admin.existsRegistration(query[1])){
+            request.setAttribute("msg", "No driver with the inputted registration found");
+        }
+        
         //Insert the demand
         else{
-            Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
-            Double fee = distance.calculatePrice(theDistance);
-            admin.insertDemand(query,fee,theDistance);
-            admin.updateDemandStatus(queryID);
+//            Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
+//            Double fee = distance.calculatePrice(theDistance);
+            admin.insertDemand(query);
+            admin.updateDemandStatus(query[0]);
             request.setAttribute("msg", "Booked!");
         }
         

@@ -44,11 +44,12 @@ public class CompleteJourney extends HttpServlet {
         String user = (String) session.getAttribute("loggedInUser");
         
         Driver driver = (Driver) session.getAttribute("dbbean3");
-         //Get today's date
+        
+        //Get today's date
         LocalDate date = LocalDate.now();
-        String qry1 = "SELECT Journey.JID, Journey.ID, Journey.Address, Journey.Destination, Journey.Distance, Journey.Time FROM journey LEFT JOIN Drivers ON Drivers.Registration = Journey.Registration WHERE Drivers.Username='"+user+"' AND Journey.Status='Booked' AND Journey.Date = '"+date+"'";
         
         //Useful queries
+        String qry1 = "SELECT Journey.JID, Journey.ID, Journey.Address, Journey.Destination, Journey.Distance, Journey.Time FROM journey LEFT JOIN Drivers ON Drivers.Registration = Journey.Registration WHERE Drivers.Username='"+user+"' AND Journey.Status='Booked' AND Journey.Date = '"+date+"'";
         String[] query = new String[2];
         query[0] = (String) request.getParameter("journeyID");
         query[1] = (String) request.getParameter("status");
@@ -64,6 +65,22 @@ public class CompleteJourney extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         
+        //If no journey ID is inputted, display a message
+        if (query[0].equals("")){
+            request.setAttribute("msg", "Please input an ID for the journey");
+        }
+        
+        //If no status is inputted, display a message
+        else if (query[1].equals("")){
+            request.setAttribute("msg", "Please input a status for the journey");
+        }
+        
+        //If the inputted journey does not exist, display a message
+        else if (!driver.existsJourney(query[0])){
+            request.setAttribute("msg", "No journey found for the inputted journey ID");
+        }
+        
+        //Update the status of the journey
         else{
             driver.updateJourneyStatus(query);
             request.setAttribute("msg", "Updated successfully!");

@@ -65,6 +65,7 @@ public class BookTaxi extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         
+        
         //Book the customer's taxi
         else {
             Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));

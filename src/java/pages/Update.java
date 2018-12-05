@@ -56,7 +56,7 @@ public class Update extends HttpServlet {
         
         //If session is invalidated, redirect to index
         if (user == null) {
-            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
               
@@ -69,10 +69,14 @@ public class Update extends HttpServlet {
         {
             request.setAttribute("msg", "Password must be at least 5 characters long");  
         }
+        
+        else if (query[1].equals("") || query[2].equals("") || query[3].equals("") || query[4].equals("")){
+            request.setAttribute("msg", "All fields all mandatory");  
+        }
 
         //Check if the inputted passwords are the same
         else if(!query[2].trim().equals(query[1].trim())) {
-            request.setAttribute("msg", "Your two passwords are not the same. </br> Please make sure you confirm the password</br>"); 
+            request.setAttribute("msg", "The passwords do not match"); 
         }
 
         //Check administrator credentials
@@ -84,7 +88,7 @@ public class Update extends HttpServlet {
             }
             else{
                 admin.updateAdmin(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
+                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
         }
 
@@ -96,7 +100,7 @@ public class Update extends HttpServlet {
             }
             else{
                 customer.updateCustomer(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
+                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
         }
 
@@ -108,7 +112,7 @@ public class Update extends HttpServlet {
             }
             else{
                 driver.updateDriver(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed</br>");
+                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
         }
         

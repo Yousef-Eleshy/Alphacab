@@ -31,6 +31,7 @@ public class Admin {
     Statement statement = null;
     ResultSet rs = null;
     
+    
     public void connect(Connection con){
        connection = con;
     }
@@ -130,6 +131,36 @@ public class Admin {
         return result;
     }
     
+        //Check driver exists
+    public boolean existsDemand(String id) {
+        boolean bool = false;
+        try  {
+            select("select ID from Demands where ID="+id+" and Status='Outstanding'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
+        //Check driver exists
+    public boolean existsRegistration(String reg) {
+        boolean bool = false;
+        try  {
+            select("select Registration from Drivers where registration='"+reg+"'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
         //Update an admin
     public void updateAdmin(String[] str) {
         PreparedStatement ps = null;
@@ -187,7 +218,7 @@ public class Admin {
     } 
     
     //Insert a demand
-    public void insertDemand(String[] str, Double fee, Double distance){
+    public void insertDemand(String[] str){
         PreparedStatement ps = null;
         try {
             Statement stmt = connection.createStatement();
@@ -195,21 +226,33 @@ public class Admin {
             rs.next();
             int count = rs.getInt("rowcount");
             rs.close();      
+               
+            String qry1 = findDemandDetail(("select name from DEMANDS where id ="+str[0]+""),"name");
+            String qry2 = findDemandDetail(("select address from DEMANDS where id ="+str[0]+""),"address");
+            String qry3 = findDemandDetail(("select destination from DEMANDS where id ="+str[0]+""),"destination");
+            String qry4 = findDemandDetail(("select date from DEMANDS where id ="+str[0]+""),"date");
+            String qry5 = findDemandDetail(("select time from DEMANDS where id ="+str[0]+""),"time");
             
             Statement stmt2 = connection.createStatement();
-            ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Customer WHERE name = '"+str[0]+"'");
+            ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Customer WHERE name = '"+qry1+"'");
             rs2.next();
             int id = rs2.getInt("custID");
+            rs.close();
+            
+            DistanceMatrix distance = new DistanceMatrix();
+            
+            Double theDistance = Double.parseDouble(distance.getDistance(qry2,qry3));
+            Double fee = distance.calculatePrice(theDistance);
             
             ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (count+1));           
             ps.setInt(2, id);
-            ps.setString(3, str[1]);
-            ps.setString(4, str[2]);
-            ps.setDouble(5, distance);
-            ps.setString(6, str[6]);
-            ps.setString(7, str[3]);
-            ps.setString(8, str[4]);
+            ps.setString(3, qry2);
+            ps.setString(4, qry3);
+            ps.setDouble(5, theDistance);
+            ps.setString(6, str[1]);
+            ps.setString(7, qry4);
+            ps.setString(8, qry5);
             ps.setDouble(9,fee);
             ps.setString(10, "Booked");
             ps.executeUpdate(); 
@@ -219,6 +262,8 @@ public class Admin {
         } catch (SQLException ex) {
             ex.printStackTrace();
             Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
     

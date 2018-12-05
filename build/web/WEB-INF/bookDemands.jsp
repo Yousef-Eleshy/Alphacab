@@ -40,26 +40,6 @@
                     <td><input type="text" name="id"/></td>
                 </tr>
                 <tr>
-                    <td>Customer Name:</td>
-                    <td><input type="text" name="name"/></td>
-                </tr>
-                <tr>
-                    <td>Address:</td>
-                    <td><input type="text" name="address"/></td>
-                </tr>
-                <tr>
-                    <td>Destination:</td>
-                    <td><input type="text" name="destination"/></td>
-                </tr>
-                <tr>
-                    <td>Date:</td>
-                    <td><input type="text" name="date"/></td>
-                </tr>
-                <tr>
-                    <td>Time:</td>
-                    <td><input type="text" name="time"/></td>
-                </tr>
-                <tr>
                     <td>Driver Registration:</td>
                     <td><input type="text" name="registration"/></td>
                 </tr>

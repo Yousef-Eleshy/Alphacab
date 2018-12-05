@@ -50,18 +50,15 @@ public class AdminsHomepage extends HttpServlet {
         String qry2 = "select * from DRIVERS";
         String qry3 = "select * from DEMANDS where Status='Outstanding'";
         String qry5 = "select * from JOURNEY";
-        //String qry4 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";
-        //String qry5 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers LEFT JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";  
-        
-        
+                
         //Admin Bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
         
-        //DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        //Admin admin = new Admin();
         
         //If session is invalidated, redirect to index
         if (user == null) {
-            request.setAttribute("Error", "Session has ended.  Please login.");
+            request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         

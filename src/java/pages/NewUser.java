@@ -36,7 +36,6 @@ public class NewUser extends HttpServlet {
         
         //Get the login session
         HttpSession session = request.getSession();
-        String user = (String) session.getAttribute("loggedInUser");
         
         Customer customer = (Customer)session.getAttribute("dbbean"); 
         
@@ -47,13 +46,6 @@ public class NewUser extends HttpServlet {
         query[2] = (String)request.getParameter("confPassword");
         query[3] = (String)request.getParameter("name");
         query[4] = (String)request.getParameter("address");
-      
-        
-//        //If session is invalidated, redirect to index
-//        if (user == null) {
-//            request.setAttribute("Error", "Session has ended.  Please login.");
-//            request.getRequestDispatcher("index.jsp").forward(request, response);
-//        }
         
         //If connection fails, display error message
         if (customer == null)
@@ -63,6 +55,25 @@ public class NewUser extends HttpServlet {
         if(query[0].equals("") ) {
             request.setAttribute("message", "Username cannot be NULL");
         } 
+        //If either of the password fields are not inputted, display error
+        else if (query[1].equals("") || query[2].equals("")){
+            request.setAttribute("message", "Both password fields must be inputted");
+        }
+        
+        //Check password length is appropriate
+        else if(query[1].length() < 5)
+        {
+            request.setAttribute("msg", "Password must be at least 5 characters long");  
+        }
+        
+        //If the name field is not inputted, display an error
+        else if (query[3].equals("")){
+            request.setAttribute("message", "The name field must have an input");
+        }
+        //If the address field is not inputted, display an error
+        else if (query[4].equals("")){
+            request.setAttribute("message", "The address field must have an input");
+        }
         //If username is already taken, display error
         else if(customer.existsCustomer(query[0])){
             request.setAttribute("message", query[0]+" is already taken as username");

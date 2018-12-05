@@ -106,6 +106,21 @@ public class Driver {
         return bool;
     }
     
+        //Check driver exists
+    public boolean existsJourney(String j) {
+        boolean bool = false;
+        try  {
+            select("select JID from Journey where JID="+j+" and Status='Outstanding'");
+            if(rs.next()) {
+                System.out.println("TRUE");         
+                bool = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return bool;
+    }
+    
     //Insert a driver
     public void insertDriver(String[] str){
         PreparedStatement ps = null;
