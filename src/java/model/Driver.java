@@ -139,6 +139,21 @@ public class Driver {
             Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updateJourneyStatus(String [] str) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update Journey Set Status=? where JID=?",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, str[1].trim()); 
+            ps.setString(2, str[0]);
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
            
     //Delete a driver
     public void deleteDriver(String user){

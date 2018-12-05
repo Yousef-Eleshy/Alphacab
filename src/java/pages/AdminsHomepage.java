@@ -57,7 +57,7 @@ public class AdminsHomepage extends HttpServlet {
         //Admin Bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
         
-        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        //DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
         
         //If session is invalidated, redirect to index
         if (user == null) {

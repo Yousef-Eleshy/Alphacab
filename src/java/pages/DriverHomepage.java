@@ -59,7 +59,7 @@ public class DriverHomepage extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
         //Display drivers journeys for the day
-        if (request.getParameter("tbl").equals("journeys")){
+        if (request.getParameter("tbl").equals("todaysJourneys")){
             
             String msg="No Demands";
             try {
@@ -68,7 +68,7 @@ public class DriverHomepage extends HttpServlet {
                 Logger.getLogger(DriverHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("query", msg);
-            request.getRequestDispatcher("/WEB-INF/driverHomepage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/completeJourney.jsp").forward(request, response);
         }
                 
         //Direct to driver homepage jsp

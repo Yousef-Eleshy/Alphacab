@@ -44,6 +44,10 @@
         <servlet-name>Delete</servlet-name>
         <servlet-class>pages.Delete</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CompleteJourney</servlet-name>
+        <servlet-class>pages.CompleteJourney</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login.do</url-pattern>
@@ -83,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>Delete</servlet-name>
         <url-pattern>/Delete.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompleteJourney</servlet-name>
+        <url-pattern>/CompleteJourney.do</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>LoginFilter</filter-name>

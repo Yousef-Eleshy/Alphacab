@@ -17,7 +17,8 @@
         <form method="POST" action="DriverHomepage.do">
         <p />
             View a table <br />
-            <input type="radio" name="tbl" value="journeys">List Journeys<br />
+            <input type="radio" name="tbl" value="todaysJourneys">List Today's Journeys<br />
+            <input type="radio" name="tbl" value="previousJourneys">List Previous Journeys<br />
             <input type=submit value="Go!"> <br />
         </form> 
     </body>
