@@ -34,7 +34,7 @@
                 </tr>
                 <tr>
                     <td>Name:</td>
-                    <td><input type="password" name="name"/></td>
+                    <td><input type="text" name="name"/></td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="Register"/></td>

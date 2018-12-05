@@ -85,7 +85,7 @@ public class RegisterDriver extends HttpServlet {
         //Register the new driver
         else{
             driver.insertDriver(query);
-            request.setAttribute("message", query[0]+" has been registered successfully!");
+            request.setAttribute("msg", query[0]+" has been registered successfully!");
         }
         
         //Direct to register driver jsp

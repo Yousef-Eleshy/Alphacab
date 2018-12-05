@@ -12,6 +12,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,8 +26,12 @@ import java.net.URL;
  */
 public class DistanceMatrix {
  
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet rs = null;
+    
     //int for changing price
-    public static int newprice;
+    public static double price = 2;
     //calculate the distance
     public String getDistance(String origin, String destination) throws MalformedURLException, IOException {
        
@@ -45,20 +56,10 @@ public class DistanceMatrix {
        
         return outputString;
     }
-    //increase price by £2
-    public int increasePrice() {
-        newprice += 2;
-        return newprice;
-    }
-    //decrease price by £2
-    public int decreasePrice() {
-        newprice -= 2;
-        return newprice;
-    }
     
     public double calculatePrice(Double distance){
         
-        Double fee = distance * 2; 
+        Double fee = distance * price; 
               
         return fee;
     }

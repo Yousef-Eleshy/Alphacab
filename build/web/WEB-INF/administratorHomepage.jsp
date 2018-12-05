@@ -23,11 +23,13 @@
             <input type="radio" name="tbl" value="ListServedCustomers">List Served Customers<br />
             <input type="radio" name="tbl" value="CreateDailyReport">Create Daily Report<br />
             <input type="radio" name="tbl" value="CreateCustomerInvoice">Create Customer Invoice<br />
+            <input type="radio" name="tbl" value="ChangeJourneyPrice">Change Price of a Journey<br />
+            <input type="radio" name="tbl" value="ChangePriceShortDistances">Change Price of short Distances<br />
+            <input type="radio" name="tbl" value="NewAdmin">Register A New Admin<br />
             <input type="radio" name="tbl" value="RegisterDriver">Register A Driver<br />
             <input type="radio" name="tbl" value="NewUser">Register a User<br />
             <input type="radio" name="tbl" value="Update">Password Change<br />
             <input type="radio" name="tbl" value="Delete">Delete a User<br />
-            <input type="radio" name="tbl" value="Test">Test<br />
             <input type=submit value="Go!"> <br />
         </form> 
         <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>

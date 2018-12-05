@@ -92,6 +92,44 @@ public class Admin {
         }
     }
      
+     
+         //Update an admin
+    public void updatePrice(String[] str) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update Journey Set price=? where JID=?",PreparedStatement.RETURN_GENERATED_KEYS);
+            Double price = Double.parseDouble(str[1]);
+            ps.setDouble(1, price); 
+            ps.setString(2, str[0].trim());
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
+    
+    public void increasePrice(String [] str) {
+        
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update Journey Set price+=? where distance <?",PreparedStatement.RETURN_GENERATED_KEYS);
+            Double price = Double.parseDouble(str[1]);
+            Double distance = Double.parseDouble(str[0]);
+            ps.setDouble(1, price);
+            ps.setDouble(2, distance);          
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     //Retrieve from database
     public String retrieve(String query) throws SQLException {
         String results="";
@@ -113,7 +151,7 @@ public class Admin {
         }
         return bool;
     }
-    
+       
     public String findDemandDetail(String query,String detail) {
         
         String result = "";

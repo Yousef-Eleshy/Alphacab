@@ -50,11 +50,11 @@ public class AdminsHomepage extends HttpServlet {
         String qry2 = "select * from DRIVERS";
         String qry3 = "select * from DEMANDS where Status='Outstanding'";
         String qry5 = "select * from JOURNEY";
+        String qry6 = "select * from JOURNEY where Status ='Booked'";
                 
         //Admin Bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
         
-        //Admin admin = new Admin();
         
         //If session is invalidated, redirect to index
         if (user == null) {
@@ -105,6 +105,20 @@ public class AdminsHomepage extends HttpServlet {
             
             request.getRequestDispatcher("/WEB-INF/bookDemands.jsp").forward(request, response);
         }
+        
+        else if (request.getParameter("tbl").equals("ChangeJourneyPrice")){
+            String msg="No journeys";
+            try {
+                msg = admin.retrieve(qry6);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+            request.getRequestDispatcher("/WEB-INF/changePriceOfJourney.jsp").forward(request, response);
+        }
+        else if(request.getParameter("tbl").equals("ChangePriceShortDistances")){
+            request.getRequestDispatcher("/WEB-INF/increasePrice.jsp").forward(request, response);
+        } 
         //Create new customer
         else if(request.getParameter("tbl").equals("NewUser")){
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);

@@ -58,18 +58,9 @@ public class BookDemands extends HttpServlet {
         //String queryID = (String) request.getParameter("id");
         
         String[] query = new String[2];
-        
         query[0] = (String) request.getParameter("id");
         query[1] = (String) request.getParameter("registration");
-//        query[0] = admin.findDemandDetail(("select name from DEMANDS where id ="+queryID+""),"name");
-//        query[1] = admin.findDemandDetail(("select address from DEMANDS where id ="+queryID+""),"address");
-//        query[2] = admin.findDemandDetail(("select destination from DEMANDS where id ="+queryID+""),"destination");
-//        query[3] = admin.findDemandDetail(("select date from DEMANDS where id ="+queryID+""),"date");
-//        query[4] = admin.findDemandDetail(("select time from DEMANDS where id ="+queryID+""),"time");    
-//        query[5] = "SELECT ID FROM Customer WHERE name = '"+query[0]+"'";
-//        query[6] = (String) request.getParameter("registration");
-//       
-        
+         
         //If session is invalidated, redirect to index
         if (user == null) {
             request.setAttribute("msg", "Session has ended.  Please login.");
