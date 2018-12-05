@@ -37,11 +37,11 @@
                 </tr>
                 <tr>
                     <td>Demand ID:</td>
-                    <td><input type="text" name="id"/></td>
+                    <td><input type="text" name="id" placeholder="Demand ID"/></td>
                 </tr>
                 <tr>
                     <td>Driver Registration:</td>
-                    <td><input type="text" name="registration"/></td>
+                    <td><input type="text" name="registration" placeholder="Demand ID"/></td>
                 </tr>
                 <tr> 
                     <td> <input type="submit" value="Book"/></td>

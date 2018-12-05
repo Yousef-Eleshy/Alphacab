@@ -71,6 +71,11 @@ public class BookTaxi extends HttpServlet {
             Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
             Double fee = distance.calculatePrice(theDistance);
             
+            if(theDistance < 5.0)
+            {
+                fee+= 2.0;
+            }
+            
             customer.bookTaxi(query, fee);
             request.setAttribute("msg", "Your request has been inputted, the price is: £"+fee.toString()+"");
         }    

@@ -52,10 +52,6 @@
         <servlet-name>ChangeJourneyPrice</servlet-name>
         <servlet-class>pages.ChangeJourneyPrice</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>IncreasePrice</servlet-name>
-        <servlet-class>pages.IncreasePrice</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login.do</url-pattern>
@@ -103,10 +99,6 @@
     <servlet-mapping>
         <servlet-name>ChangeJourneyPrice</servlet-name>
         <url-pattern>/ChangeJourneyPrice.do</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>IncreasePrice</servlet-name>
-        <url-pattern>/IncreasePrice.do</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>LoginFilter</filter-name>

@@ -280,7 +280,12 @@ public class Admin {
             DistanceMatrix distance = new DistanceMatrix();
             
             Double theDistance = Double.parseDouble(distance.getDistance(qry2,qry3));
+            
             Double fee = distance.calculatePrice(theDistance);
+            
+            if (theDistance < 5.0){
+                fee += 2.0;
+            }
             
             ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (count+1));           

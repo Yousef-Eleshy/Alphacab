@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1cad6479-460e-4a6f-8495-66cb65401e90">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     CUSTOMER."NAME" AS CUSTOMER_NAME,
+     CUSTOMER."ADDRESS" AS CUSTOMER_ADDRESS,
+     JOURNEY."DESTINATION" AS JOURNEY_DESTINATION,
+     JOURNEY."DISTANCE" AS JOURNEY_DISTANCE,
+     JOURNEY."DATE" AS JOURNEY_DATE,
+     JOURNEY."PRICE" AS JOURNEY_PRICE
+FROM
+     "ROOT"."CUSTOMER" CUSTOMER,
+     "ROOT"."JOURNEY" JOURNEY]]>
+	</queryString>
+	<field name="CUSTOMER_NAME" class="java.lang.String"/>
+	<field name="CUSTOMER_ADDRESS" class="java.lang.String"/>
+	<field name="JOURNEY_DESTINATION" class="java.lang.String"/>
+	<field name="JOURNEY_DISTANCE" class="java.lang.Integer"/>
+	<field name="JOURNEY_DATE" class="java.sql.Date"/>
+	<field name="JOURNEY_PRICE" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="-7" width="544" height="79" uuid="c1cccae5-9f7d-4d5e-95c7-1d7842bf95d0"/>
+				<textElement>
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[CUSTOMER INVOICE ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="2" width="100" height="20" uuid="18fd81f9-17b2-4264-94bb-5a05731013c3"/>
+				<text><![CDATA[CUSTOMERS NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="2" width="100" height="20" uuid="58b66208-3525-4457-b709-b6c3bc4c4c75"/>
+				<text><![CDATA[CUSTOMER_ADDRESS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="2" width="100" height="20" uuid="8bbc9542-88bc-462f-9433-95d9fff8f6ca"/>
+				<text><![CDATA[DESTINATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="2" width="100" height="20" uuid="890ecefd-b65a-47a5-88dd-ace5be896e5a"/>
+				<text><![CDATA[DATE OF JOURNEY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="2" width="100" height="20" uuid="914c28c9-b836-4e77-af73-b8726c51d297"/>
+				<text><![CDATA[JOURNEY PRICE (£)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="10" width="100" height="20" uuid="e4aff195-8290-4752-9941-2ffa3e8bd2e6"/>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="10" width="100" height="20" uuid="5a2e70ed-e421-4dc5-a614-a347ce95200b"/>
+				<textFieldExpression><![CDATA[$F{CUSTOMER_ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="10" width="100" height="20" uuid="a63c7dea-cb29-453f-8637-d00fd83db78b"/>
+				<textFieldExpression><![CDATA[$F{JOURNEY_DESTINATION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="10" width="100" height="20" uuid="d95995c0-9073-4a30-8ce8-43010118ace0"/>
+				<textFieldExpression><![CDATA[$F{JOURNEY_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="10" width="100" height="20" uuid="83e21090-874f-401a-839b-52748f874b01"/>
+				<textFieldExpression><![CDATA[$F{JOURNEY_PRICE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
