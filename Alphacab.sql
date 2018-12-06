@@ -29,7 +29,7 @@ CREATE TABLE Drivers (
   password varchar(20) NOT NULL,
   Registration varchar(10) NOT NULL,
   Name varchar(20) NOT NULL,
-  PRIMARY KEY (Registration)
+  PRIMARY KEY (Registration) NOT NULL
 );
 
 
@@ -41,7 +41,7 @@ CREATE TABLE Journey (
   id int NOT NULL,
   Address varchar(60) NOT NULL,
   Destination varchar(60) NOT NULL,
-  Distance integer NOT NULL DEFAULT 1,
+  Distance float NOT NULL DEFAULT 1,
   Registration varchar(10) NOT NULL,
   Date date NOT NULL,
   Time time DEFAULT NULL,
@@ -51,9 +51,32 @@ CREATE TABLE Journey (
 
 CREATE TABLE Admin (
   username varchar(20) NOT NULL,
-  password varchar(20) NOT NULL
+  password varchar(20) NOT NULL,
+  PRIMARY KEY (username)
 );
 
+CREATE TABLE Invoices (
+  invoiceID INT primary key NOT NULL,
+  jid int NOT NULL,
+  id int NOT NULL,
+  Name varchar(20) NOT NULL,
+  Address varchar(60) NOT NULL,
+  Destination varchar(60) NOT NULL,
+  Date date NOT NULL,
+  Time time DEFAULT NULL,
+  Price float NOT NULL,
+  PriceVAT float NOT NULL
+);
+
+CREATE TABLE DailyReports (
+  reportID INT primary key NOT NULL,
+  Turnover float NOT NULL,
+  NumCustomers int NOT NULL,
+  Date date NOT NULL
+);
+
+Alter table Invoices add foreign key (id) references Customer;
+Alter table Invoices add foreign key (jid) references Journey;
 Alter table Journey add foreign key (id) references Customer;
 Alter table Journey add foreign key (Registration) references Drivers;
 
