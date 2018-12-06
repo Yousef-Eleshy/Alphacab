@@ -19,14 +19,12 @@
             View a table <br />
             <input type="radio" name="tbl" value="ListCustomers">List Customers<br />
             <input type="radio" name="tbl" value="ListDrivers">List Drivers<br />
+            <input type="radio" name="tbl" value="ListJobs">List All Drivers Jobs<br />
             <input type="radio" name="tbl" value="BookDemands">Book Demands<br />
-            <input type="radio" name="tbl" value="ListServedCustomers">List Served Customers<br />
             <input type="radio" name="tbl" value="CreateDailyReport">Create Daily Report<br />
             <input type="radio" name="tbl" value="ViewDailyReport">View Today's Report<br />
             <input type="radio" name="tbl" value="CreateCustomerInvoice">Create Customer Invoice<br />
             <input type="radio" name="tbl" value="ChangeJourneyPrice">Change Price of a Journey<br />
-            <input type="radio" name="tbl" value="ChangePriceShortDistances">Change Price of short Distances<br />
-            <input type="radio" name="tbl" value="NewAdmin">Register A New Admin<br />
             <input type="radio" name="tbl" value="RegisterDriver">Register A Driver<br />
             <input type="radio" name="tbl" value="NewUser">Register a User<br />
             <input type="radio" name="tbl" value="Update">Password Change<br />
@@ -37,7 +35,7 @@
     </body>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <h1>Tables</h1>
+        <h1>Views</h1>
     </head>    
     <body> 
         <%=(String)(request.getAttribute("query"))%>

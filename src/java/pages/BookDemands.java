@@ -46,16 +46,13 @@ public class BookDemands extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        //DistanceMatrix distance = (GoogleMapsAPI) session.getAttribute("dbbean4");
+        //Get admin bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
+        
         //Useful queries
         String qry1 = "select name, registration from DRIVERS";
         String qry2 = "select * from DEMANDS where Status='Outstanding'";
         String qry3 = "select * from JOURNEY where Status ='Booked'";
-        
-        //String qry6 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers LEFT JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";
-        
-        //String queryID = (String) request.getParameter("id");
         
         String[] query = new String[2];
         query[0] = (String) request.getParameter("id");
@@ -66,8 +63,7 @@ public class BookDemands extends HttpServlet {
             request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        
-        
+                
         //If connection fails, display error
         if (admin == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
@@ -89,12 +85,9 @@ public class BookDemands extends HttpServlet {
         //If the inputted registration is not valid, display a message
         else if (!admin.existsRegistration(query[1])){
             request.setAttribute("msg", "No driver with the inputted registration found");
-        }
-        
+        }       
         //Insert the demand
         else{
-//            Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
-//            Double fee = distance.calculatePrice(theDistance);
             admin.insertDemand(query);
             admin.updateDemandStatus(query[0]);
             request.setAttribute("msg", "Booked!");

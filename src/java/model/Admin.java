@@ -4,11 +4,7 @@
  * and open the template in the editor.
  */
 package model;
-
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +26,7 @@ public class Admin {
     Connection connection = null;
     Statement statement = null;
     ResultSet rs = null;
-    
-    
+       
     public void connect(Connection con){
        connection = con;
     }
@@ -109,6 +104,7 @@ public class Admin {
         }
     }
      
+    //Update journey status
     public void updateJourneyStatus(String str) {
         PreparedStatement ps = null;
         try {
@@ -123,23 +119,24 @@ public class Admin {
         }
     }   
     
+    //Generate an invoice
     public void generateInvoice(String JID){
         
          PreparedStatement ps = null;
         try {
-                     
+            //Get rowcount
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Invoices");
             rs.next();
             int count = rs.getInt("rowcount");
             rs.close();
-            
+            //Get appropriate customer iD
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Journey WHERE JID = "+JID+"");
             rs2.next();
             int id = rs2.getInt("custID");
             rs2.close();
-            
+            //Get Needed details for invoice
             String qry1 = findSpecificDetail(("select name from Customer where id ="+id+""),"name");
             String qry2 = findSpecificDetail(("select address from Journey where jid ="+JID+""),"address");
             String qry3 = findSpecificDetail(("select destination from Journey where jid ="+JID+""),"destination");
@@ -147,11 +144,12 @@ public class Admin {
             String qry5 = findSpecificDetail(("select time from Journey where jid ="+JID+""),"time");
             String qry6 = findSpecificDetail(("select price from Journey where jid ="+JID+""),"price");
             
-            Integer journeyID = Integer.parseInt(JID);
-            
+            //Convert strings to needed type
+            Integer journeyID = Integer.parseInt(JID);     
             Double price = Double.parseDouble(qry6);
             Double vat = price * 1.2;
             
+            //Create an invoice record
             ps = connection.prepareStatement("INSERT INTO Invoices VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, count+1); 
             ps.setInt(2, journeyID);
@@ -171,23 +169,26 @@ public class Admin {
             ex.printStackTrace();
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }  
-        updateJourneyStatus(JID);
-             
+        //Update the status of the journey to invoiced
+        updateJourneyStatus(JID);     
     }
     
+    //Create a daily report
     public void createDailyReport(){
         PreparedStatement ps = null;
+        //Today's date
         LocalDate today = LocalDate.now();
         String date = today.toString();
         double total = 0;
         int numCustomers = 0;
-        try {                 
+        try {                
+            //Get rowcount
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Dailyreports");
             rs.next();
             int count = rs.getInt("rowcount");
             rs.close();
-            
+            //Tally up prices from invoices
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT Pricevat AS Price FROM Invoices WHERE Date ='"+date+"'");
             while (rs2.next()){
@@ -196,7 +197,7 @@ public class Admin {
                 numCustomers++;
             }
             rs2.close();
-                       
+            //Create a daily report record         
             ps = connection.prepareStatement("INSERT INTO DAILYREPORTS VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, count+1); 
             ps.setDouble(2, total);
@@ -233,7 +234,7 @@ public class Admin {
         }
         return bool;
     }
-       
+    //Useful function to find specific details in tables   
     public String findSpecificDetail(String query,String detail) {
         
         String result = "";
@@ -313,7 +314,7 @@ public class Admin {
         }
     }
     
-        //Check admin password credentials
+    //Check admin password credentials
     public boolean checkAdminPassword(String u, String p)
     {
         boolean flag = false;
@@ -341,35 +342,36 @@ public class Admin {
     public void insertDemand(String[] str){
         PreparedStatement ps = null;
         try {
-            
+            //Get needed details
             String qry1 = findSpecificDetail(("select name from DEMANDS where id ="+str[0]+""),"name");
             String qry2 = findSpecificDetail(("select address from DEMANDS where id ="+str[0]+""),"address");
             String qry3 = findSpecificDetail(("select destination from DEMANDS where id ="+str[0]+""),"destination");
             String qry4 = findSpecificDetail(("select date from DEMANDS where id ="+str[0]+""),"date");
             String qry5 = findSpecificDetail(("select time from DEMANDS where id ="+str[0]+""),"time");
             
+            //Get row count
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Journey");
             rs.next();
             int count = rs.getInt("rowcount");
             rs.close();      
-              
-            
+            //Get needed customer ID
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Customer WHERE name = '"+qry1+"'");
             rs2.next();
             int id = rs2.getInt("custID");
             rs.close();
             
-            GoogleMapsAPI distance = new GoogleMapsAPI();
-            
+            GoogleMapsAPI distance = new GoogleMapsAPI();      
+            //Useful conversions
             Double theDistance = Double.parseDouble(distance.getDistance(qry2,qry3));
-            
             Double fee = distance.calculatePrice(theDistance);
             
+            //If the distance is less than 5 miles, increase the price
             if (theDistance < 5.0){
                 fee += 2.0;
             }           
+            //Create a journey record
             ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (count+1));           
             ps.setInt(2, id);
@@ -393,6 +395,7 @@ public class Admin {
         }   
     }
     
+    //Update the demand status
     public void updateDemandStatus(String str) {
         PreparedStatement ps = null;
         try {

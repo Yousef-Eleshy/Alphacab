@@ -38,6 +38,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        //Get session
         HttpSession session = request.getSession(false);
         String user = (String) session.getAttribute("loggedInUser");
                
@@ -47,10 +48,9 @@ public class Login extends HttpServlet {
         query[1] = (String) request.getParameter("password");
         query[2] = (String) request.getParameter("usertype");
 
-        Customer customer = (Customer) session.getAttribute("dbbean"); 
-        
-        Admin admin = (Admin) session.getAttribute("dbbean2"); 
-        
+        //Get beans
+        Customer customer = (Customer) session.getAttribute("dbbean");        
+        Admin admin = (Admin) session.getAttribute("dbbean2");      
         Driver driver = (Driver) session.getAttribute("dbbean3");
             
         //If connection fails, display error
@@ -61,7 +61,6 @@ public class Login extends HttpServlet {
         else if (query[0].equals("")) {
             request.setAttribute("msg", "Username cannot be NULL");
         }
-
         //Check administrator login credentials
         if (query[2].equals("Administrator")) {
             if (!admin.existsAdmin(query[0])) {

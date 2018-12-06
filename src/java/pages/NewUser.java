@@ -37,6 +37,7 @@ public class NewUser extends HttpServlet {
         //Get the login session
         HttpSession session = request.getSession();
         
+        //Get customer bean
         Customer customer = (Customer)session.getAttribute("dbbean"); 
         
         //Useful queries

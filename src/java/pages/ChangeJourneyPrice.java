@@ -42,10 +42,11 @@ public class ChangeJourneyPrice extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        //DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        //Get admin bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
          
-        String qry6 = "select * from JOURNEY where Status ='Booked'";
+        //Useful queries
+        String qry1 = "select * from JOURNEY where Status ='Booked'";
         String[] query = new String[2];
         query[0] = (String) request.getParameter("id");
         query[1] = (String) request.getParameter("price");
@@ -60,7 +61,7 @@ public class ChangeJourneyPrice extends HttpServlet {
         if (admin == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
-        
+        //Input authentification
         else if (query[0].equals("")){
             request.setAttribute("msg", "You must input a journey ID");
         }
@@ -72,10 +73,10 @@ public class ChangeJourneyPrice extends HttpServlet {
             admin.updatePrice(query);
             request.setAttribute("msg", "Price changed!");
         }
-              
+        //Display booked journeys
         String msg="No journeys";
             try {
-                msg = admin.retrieve(qry6);
+                msg = admin.retrieve(qry1);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }

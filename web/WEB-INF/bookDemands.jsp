@@ -50,6 +50,3 @@
         </form>
         <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>
     </body>
-    <body>
-        <jsp:include page="foot.jsp"/>
-    </body>

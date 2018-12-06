@@ -107,6 +107,7 @@ public class Customer {
         return bool;
     }
     
+    //Find a customer's name
     public String findCustomerName(String user) {
         
         String result = "";

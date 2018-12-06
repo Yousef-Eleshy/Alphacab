@@ -44,12 +44,11 @@ public class GenerateInvoice extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        //Get database     
+        //Get admin bean   
         Admin admin = (Admin) session.getAttribute("dbbean2");
                 
         //Useful queries
-        String query = (String) request.getParameter("id");
-        
+        String query = (String) request.getParameter("id");      
         String qry1 = "select * from invoices where jid = "+query+"";
         
         //If session is invalidated, redirect to index
@@ -63,11 +62,12 @@ public class GenerateInvoice extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         
+        //User input authentification
         else if (query.equals("")){
             request.setAttribute("msg", "A journey ID must be inputted");
             request.getRequestDispatcher("/WEB-INF/generateInvoice.jsp").forward(request, response);
         }
-        
+        //Generate invoice
         else{
             request.setAttribute("msg", "Invoice has been generated");
             admin.generateInvoice(query);

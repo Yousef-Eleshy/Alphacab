@@ -155,6 +155,7 @@ public class Driver {
         }
     }
     
+    //Update the status of a journey
     public void updateJourneyStatus(String [] str) {
         PreparedStatement ps = null;
         try {

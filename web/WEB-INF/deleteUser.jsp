@@ -47,7 +47,4 @@
             </table>
         </form>   
     </body>
-    <body>
-        <jsp:include page="foot.jsp"/>
-    </body>
 </html>

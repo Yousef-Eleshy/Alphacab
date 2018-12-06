@@ -48,10 +48,9 @@ public class Update extends HttpServlet {
         query[3] = (String)request.getParameter("currentPassword");
         query[4] = (String)request.getParameter("usertype");
         
-        Customer customer = (Customer) session.getAttribute("dbbean"); 
-        
-        Admin admin = (Admin) session.getAttribute("dbbean2"); 
-        
+        //Get beans
+        Customer customer = (Customer) session.getAttribute("dbbean");        
+        Admin admin = (Admin) session.getAttribute("dbbean2");       
         Driver driver = (Driver) session.getAttribute("dbbean3");
         
         //If session is invalidated, redirect to index
@@ -69,16 +68,14 @@ public class Update extends HttpServlet {
         {
             request.setAttribute("msg", "Password must be at least 5 characters long");  
         }
-        
+        //Check fields are not empty
         else if (query[1].equals("") || query[2].equals("") || query[3].equals("") || query[4].equals("")){
             request.setAttribute("msg", "All fields all mandatory");  
         }
-
         //Check if the inputted passwords are the same
         else if(!query[2].trim().equals(query[1].trim())) {
             request.setAttribute("msg", "The passwords do not match"); 
         }
-
         //Check administrator credentials
         if (query[4].equals("Administrator"))
         {
@@ -91,7 +88,6 @@ public class Update extends HttpServlet {
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
         }
-
         //Check customer credentials
         else if (query[4].equals("Customer")){
             if (!customer.existsCustomer(query[0]))
@@ -103,7 +99,6 @@ public class Update extends HttpServlet {
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
         }
-
         //Check driver credentials
         else if (query[4].equals("Driver")){
             if (!driver.existsDriver(query[0]))
@@ -114,8 +109,7 @@ public class Update extends HttpServlet {
                 driver.updateDriver(query);     
                 request.setAttribute("msg", ""+query[0]+"'s password has been changed");
             }
-        }
-        
+        }     
         //Direct to password change jsp
         request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response); 
     }

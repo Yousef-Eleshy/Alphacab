@@ -43,6 +43,7 @@ public class CompleteJourney extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        //Get driver bean
         Driver driver = (Driver) session.getAttribute("dbbean3");
         
         //Get today's date

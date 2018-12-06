@@ -48,6 +48,7 @@ public class RegisterDriver extends HttpServlet {
         query[2] = (String)request.getParameter("registration");
         query[3] = (String)request.getParameter("name");
       
+        //Get driver bean
         Driver driver = (Driver)session.getAttribute("dbbean3"); 
         
         //If session is invalidated, redirect to index
@@ -55,13 +56,12 @@ public class RegisterDriver extends HttpServlet {
             request.setAttribute("Error", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        
-        
+                
         //If connection fails, display error
         if (driver == null)
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         
-        //If username = null, display error
+        //User input authentification
         if(query[0].equals("") ) {
             request.setAttribute("message", "You must input a username for the driver");
         } 
@@ -86,8 +86,7 @@ public class RegisterDriver extends HttpServlet {
         else{
             driver.insertDriver(query);
             request.setAttribute("msg", query[0]+" has been registered successfully!");
-        }
-        
+        }   
         //Direct to register driver jsp
         request.getRequestDispatcher("/WEB-INF/registerDriver.jsp").forward(request, response);
     }

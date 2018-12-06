@@ -40,13 +40,12 @@ public class BookTaxi extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        //Get database     
+        //Get beans    
         Customer customer = (Customer) session.getAttribute("dbbean");
         GoogleMapsAPI distance = (GoogleMapsAPI) session.getAttribute("dbbean4");
         
-        String qry1 = customer.findCustomerName(user);
-        
         //Useful queries
+        String qry1 = customer.findCustomerName(user);
         String[] query = new String[5];
         query[0] = qry1;
         query[1] = (String) request.getParameter("address");
@@ -65,17 +64,18 @@ public class BookTaxi extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
         }
         
-        
+        if (query[0].equals("") || query[1].equals("") || query[2].equals("") || query[3].equals("") || query[4].equals("")){
+            request.setAttribute("msg", "All fields are mandatory");
+        }
         //Book the customer's taxi
         else {
             Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
             Double fee = distance.calculatePrice(theDistance);
-            
+            //If the distance is less than 5 miles, increase the fee
             if(theDistance < 5.0)
             {
                 fee+= 2.0;
-            }
-            
+            }           
             customer.bookTaxi(query, fee);
             request.setAttribute("msg", "Your request has been inputted, the price is: £"+fee.toString()+"");
         }    

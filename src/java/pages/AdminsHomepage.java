@@ -12,15 +12,13 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
-import model.Customer;
-import model.Jdbc;
-import model.GoogleMapsAPI;
+
 
 /**
  *
@@ -45,6 +43,7 @@ public class AdminsHomepage extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        //Get today's date
         LocalDate today = LocalDate.now();
         String date = today.toString();
         
@@ -56,11 +55,10 @@ public class AdminsHomepage extends HttpServlet {
         String qry5 = "select * from Dailyreports where Date = '"+date+"'";
         String qry6 = "select * from JOURNEY where Status ='Booked'";
         String qry7 = "select * from JOURNEY where Status = 'Completed'";
-                
-        //Admin Bean
+        
+        //Get admin bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
-        
-        
+          
         //If session is invalidated, redirect to index
         if (user == null) {
             request.setAttribute("msg", "Session has ended.  Please login.");
@@ -91,6 +89,16 @@ public class AdminsHomepage extends HttpServlet {
             }
             request.setAttribute("query", msg);
         }
+        //List all drivers jobs
+        else if (request.getParameter("tbl").equals("ListJobs")){
+            String msg="No drivers";
+            try {
+                msg = admin.retrieve(qry6);
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+        }
         //Book customer demands
         else if (request.getParameter("tbl").equals("BookDemands"))
         {
@@ -110,22 +118,33 @@ public class AdminsHomepage extends HttpServlet {
             
             request.getRequestDispatcher("/WEB-INF/bookDemands.jsp").forward(request, response);
         }
-        
+        //Create a daily report
         else if (request.getParameter("tbl").equals("CreateDailyReport")){
             admin.createDailyReport();
+//            String msg="No Reports";
+//            try {
+//                msg = admin.retrieve(qry5);;
+//            } catch (SQLException ex) {
+//                Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            request.setAttribute("query", msg);
+        }
+        
+        //View today's report
+        else if (request.getParameter("tbl").equals("ViewDailyReport")){
             String msg="No Reports";
             try {
-                msg = admin.retrieve(qry5);;
+                msg = admin.retrieve(qry5);
+
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("query", msg);
-        }
-        
-        else if (request.getParameter("tbl").equals("ViewDailyReport")){
+
             request.getRequestDispatcher("/WEB-INF/viewDailyReport.jsp").forward(request, response);
         }
         
+        //Create a customer invoice
         else if (request.getParameter("tbl").equals("CreateCustomerInvoice")){
             
             String msg="No journeys";
@@ -139,7 +158,8 @@ public class AdminsHomepage extends HttpServlet {
           
             request.getRequestDispatcher("/WEB-INF/generateInvoice.jsp").forward(request, response);
         }
-              
+          
+        //Change price of a journey
         else if (request.getParameter("tbl").equals("ChangeJourneyPrice")){
             String msg="No journeys";
             try {
@@ -150,9 +170,7 @@ public class AdminsHomepage extends HttpServlet {
             request.setAttribute("query", msg);
             request.getRequestDispatcher("/WEB-INF/changePriceOfJourney.jsp").forward(request, response);
         }
-        else if(request.getParameter("tbl").equals("ChangePriceShortDistances")){
-            request.getRequestDispatcher("/WEB-INF/increasePrice.jsp").forward(request, response);
-        } 
+        
         //Create new customer
         else if(request.getParameter("tbl").equals("NewUser")){
             request.getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);

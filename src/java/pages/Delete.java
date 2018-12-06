@@ -48,12 +48,10 @@ public class Delete extends HttpServlet {
         query[2] = (String) request.getParameter("confPassword");
         query[3] = (String) request.getParameter("usertype");
 
-        Customer customer = (Customer) session.getAttribute("dbbean"); 
-        
-        Admin admin = (Admin) session.getAttribute("dbbean2"); 
-        
+        //Get beans
+        Customer customer = (Customer) session.getAttribute("dbbean");        
+        Admin admin = (Admin) session.getAttribute("dbbean2");      
         Driver driver = (Driver) session.getAttribute("dbbean3");
-        
         
         //If session is invalidated, redirect to index
         if (user == "") {
@@ -117,7 +115,6 @@ public class Delete extends HttpServlet {
                 request.setAttribute("msg", "Deleted!");
             }
         }
-
         //Direct to delete user jsp
         request.getRequestDispatcher("/WEB-INF/deleteUser.jsp").forward(request, response);
     }

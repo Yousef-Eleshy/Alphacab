@@ -52,6 +52,7 @@ public class DriverHomepage extends HttpServlet {
         //Useful queries
         String qry1 = "SELECT Journey.JID, Journey.ID, Journey.Address, Journey.Destination, Journey.Distance, Journey.Time FROM journey LEFT JOIN Drivers ON Drivers.Registration = Journey.Registration WHERE Drivers.Username='"+user+"' AND Journey.Status='Booked' AND Journey.Date = '"+date+"'";
         
+        //Get driver bean
         Driver driver = (Driver) session.getAttribute("dbbean3");
         
         //If connection fails, display error
