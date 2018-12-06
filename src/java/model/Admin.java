@@ -190,10 +190,11 @@ public class Admin {
             
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT Pricevat AS Price FROM Invoices WHERE Date ='"+date+"'");
-            rs2.next();
-            double price = rs2.getDouble("Price");
-            total +=price;
-            numCustomers++;
+            while (rs2.next()){
+                double price = rs2.getDouble("Price");
+                total +=price;
+                numCustomers++;
+            }
             rs2.close();
                        
             ps = connection.prepareStatement("INSERT INTO DAILYREPORTS VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);

@@ -120,7 +120,10 @@ public class AdminsHomepage extends HttpServlet {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
             request.setAttribute("query", msg);
-            //request.getRequestDispatcher("/WEB-INF/viewDailyReport.jsp").forward(request, response);
+        }
+        
+        else if (request.getParameter("tbl").equals("ViewDailyReport")){
+            request.getRequestDispatcher("/WEB-INF/viewDailyReport.jsp").forward(request, response);
         }
         
         else if (request.getParameter("tbl").equals("CreateCustomerInvoice")){

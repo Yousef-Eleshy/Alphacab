@@ -22,6 +22,7 @@
             <input type="radio" name="tbl" value="BookDemands">Book Demands<br />
             <input type="radio" name="tbl" value="ListServedCustomers">List Served Customers<br />
             <input type="radio" name="tbl" value="CreateDailyReport">Create Daily Report<br />
+            <input type="radio" name="tbl" value="ViewDailyReport">View Today's Report<br />
             <input type="radio" name="tbl" value="CreateCustomerInvoice">Create Customer Invoice<br />
             <input type="radio" name="tbl" value="ChangeJourneyPrice">Change Price of a Journey<br />
             <input type="radio" name="tbl" value="ChangePriceShortDistances">Change Price of short Distances<br />
