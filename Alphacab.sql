@@ -17,7 +17,7 @@ CREATE TABLE Demands (
   Date date DEFAULT NULL,
   Time time DEFAULT NULL,
   Status varchar(15) NOT NULL,
-  Price integer NOT NULL,
+  Price float NOT NULL,
   id INT primary key NOT NULL
 );
 
@@ -39,12 +39,14 @@ CREATE TABLE Drivers (
 CREATE TABLE Journey (
   jid INT primary key NOT NULL,
   id int NOT NULL,
+  Address varchar(60) NOT NULL,
   Destination varchar(60) NOT NULL,
   Distance integer NOT NULL DEFAULT 1,
   Registration varchar(10) NOT NULL,
   Date date NOT NULL,
   Time time DEFAULT NULL,
-  Price integer NOT NULL
+  Price float NOT NULL,
+  Status varchar(20) NOT NULL
 );
 
 CREATE TABLE Admin (

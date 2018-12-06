@@ -67,8 +67,8 @@ public class BookTaxi extends HttpServlet {
         
         //Book the customer's taxi
         else {
-            Integer theDistance = Integer.parseInt(distance.getDistance(query[1],query[2]));
-            Integer fee = distance.calculatePrice(theDistance);
+            Double theDistance = Double.parseDouble(distance.getDistance(query[1],query[2]));
+            Double fee = distance.calculatePrice(theDistance);
             
             customer.bookTaxi(query, fee);
             request.setAttribute("msg", "Your request has been inputted, the price is: £"+fee.toString()+"");

@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Change Password</title>
+        <link href="${pageContext.request.contextPath}/css/loginStyle.css" rel="stylesheet" >
     </head>
     <body>
         <h2>Password change</h2>

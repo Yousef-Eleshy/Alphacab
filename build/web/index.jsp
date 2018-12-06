@@ -10,16 +10,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link href="css/indexStyle.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <h1>Alphacab</h1>
         <form method="POST" action="UserService.do">
         <p />
-            View a table <br />
+        <h2>
+            
             <input type="radio" name="tbl" value="Login">Login<br />
             <input type="radio" name="tbl" value="NewUser">Register<br />
             <input type="radio" name="tbl" value="Update">Password Change<br />
             <input type=submit value="Go!"> <br />
+            
+        </h2>
         </form> 
     </body>
 </html>

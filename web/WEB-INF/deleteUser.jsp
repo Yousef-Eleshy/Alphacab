@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Delete User</title>
+        <link href="${pageContext.request.contextPath}/css/deleteUserStyle.css" rel="stylesheet" >
     </head>
     <body>
         <h1>Delete User</h1>

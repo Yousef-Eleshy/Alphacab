@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>User</title>
+        <link href="${pageContext.request.contextPath}/css/registerStyle.css" rel="stylesheet" >
     </head>
     <body>
         <h2>User's details:</h2>
@@ -57,6 +58,6 @@
         </br>
     </body>
     <body>
-    <a href="index.jsp">Back</a>
+        <jsp:include page="foot.jsp"/>
     </body>
 </html>
