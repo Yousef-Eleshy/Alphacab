@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<link href="${pageContext.request.contextPath}/css/footStyle.css" rel="stylesheet" >
+
 <button onclick="goBack()">Go Back</button>
 
 <script>

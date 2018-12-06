@@ -10,12 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin homepage</title>
+        <link href="${pageContext.request.contextPath}/css/adminHomePageStyle.css" rel="stylesheet" >
     </head>
     <body>
         <h1>Admin homepage</h1>
         <a href="logout.jsp">Log out</a>
+         
         <form method="POST" action="AdminsHomepage.do">
         <p />
+        <h2>
             View a table <br />
             <input type="radio" name="tbl" value="ListCustomers">List Customers<br />
             <input type="radio" name="tbl" value="ListDrivers">List Drivers<br />
@@ -29,6 +32,7 @@
             <input type="radio" name="tbl" value="Delete">Delete a User<br />
             <input type="radio" name="tbl" value="Test">Test<br />
             <input type=submit value="Go!"> <br />
+        </h2>
         </form> 
         <%=((String) (request.getAttribute("msg")) != null) ? (String) (request.getAttribute("msg")) : ""%>
     </body>
