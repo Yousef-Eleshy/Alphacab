@@ -5,12 +5,10 @@
  */
 package model;
 
-import java.io.BufferedReader;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -92,8 +91,7 @@ public class Admin {
         }
     }
      
-     
-         //Update an admin
+    //Update an admin
     public void updatePrice(String[] str) {
         PreparedStatement ps = null;
         try {
@@ -106,30 +104,11 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
-    
-    public void increasePrice(String [] str) {
         
-        PreparedStatement ps = null;
-        try {
-            ps = connection.prepareStatement("Update Journey Set price+=? where distance <?",PreparedStatement.RETURN_GENERATED_KEYS);
-            Double price = Double.parseDouble(str[1]);
-            Double distance = Double.parseDouble(str[0]);
-            ps.setDouble(1, price);
-            ps.setDouble(2, distance);          
-            ps.executeUpdate();
-            connection.commit();
-            ps.close();
-            System.out.println("1 rows updated.");
-        } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    
     //Retrieve from database
     public String retrieve(String query) throws SQLException {
         String results="";
@@ -147,7 +126,7 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -169,7 +148,7 @@ public class Admin {
         return result;
     }
     
-        //Check driver exists
+    //Check driver exists
     public boolean existsDemand(String id) {
         boolean bool = false;
         try  {
@@ -179,12 +158,12 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
     
-        //Check driver exists
+    //Check driver exists
     public boolean existsRegistration(String reg) {
         boolean bool = false;
         try  {
@@ -194,12 +173,12 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
     
-        //Update an admin
+    //Update an admin
     public void updateAdmin(String[] str) {
         PreparedStatement ps = null;
         try {
@@ -211,7 +190,7 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -277,7 +256,7 @@ public class Admin {
             int id = rs2.getInt("custID");
             rs.close();
             
-            DistanceMatrix distance = new DistanceMatrix();
+            GoogleMapsAPI distance = new GoogleMapsAPI();
             
             Double theDistance = Double.parseDouble(distance.getDistance(qry2,qry3));
             
@@ -304,7 +283,7 @@ public class Admin {
             System.out.println("1 row added.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }    
@@ -320,7 +299,7 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }   
     

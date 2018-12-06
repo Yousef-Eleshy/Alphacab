@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
 import model.Driver;
-import model.DistanceMatrix;
-import model.Jdbc;
+import model.GoogleMapsAPI;
+import model.Main;
 
 
 /**
@@ -45,7 +45,7 @@ public class UserServLet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-//        Jdbc dbBean = new Jdbc();
+//        Main dbBean = new Main();
 //        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
 //        session.setAttribute("dbbean", dbBean);
         
@@ -61,7 +61,7 @@ public class UserServLet extends HttpServlet {
         dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean3", dbBean3);
         
-        DistanceMatrix dbBean4 = new DistanceMatrix();
+        GoogleMapsAPI dbBean4 = new GoogleMapsAPI();
         dbBean3.connect((Connection)request.getServletContext().getAttribute("connection"));
         session.setAttribute("dbbean4", dbBean4);
                 

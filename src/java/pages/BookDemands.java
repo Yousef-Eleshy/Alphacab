@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
-import model.DistanceMatrix;
-import model.Jdbc;
+import model.GoogleMapsAPI;
+import model.Main;
 
 /**
  *
@@ -46,7 +46,7 @@ public class BookDemands extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
-        //DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        //DistanceMatrix distance = (GoogleMapsAPI) session.getAttribute("dbbean4");
         Admin admin = (Admin) session.getAttribute("dbbean2");
         //Useful queries
         String qry1 = "select name, registration from DRIVERS";

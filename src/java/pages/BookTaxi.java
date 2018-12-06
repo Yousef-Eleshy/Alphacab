@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
-import model.DistanceMatrix;
-import model.Jdbc;
+import model.GoogleMapsAPI;
+import model.Main;
 
 /**
  *
@@ -42,7 +42,7 @@ public class BookTaxi extends HttpServlet {
         
         //Get database     
         Customer customer = (Customer) session.getAttribute("dbbean");
-        DistanceMatrix distance = (DistanceMatrix) session.getAttribute("dbbean4");
+        GoogleMapsAPI distance = (GoogleMapsAPI) session.getAttribute("dbbean4");
         
         String qry1 = customer.findCustomerName(user);
         

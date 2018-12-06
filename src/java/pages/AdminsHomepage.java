@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
-import model.Jdbc;
-import model.DistanceMatrix;
+import model.Main;
+import model.GoogleMapsAPI;
 
 /**
  *
@@ -104,6 +104,11 @@ public class AdminsHomepage extends HttpServlet {
             request.setAttribute("query2", msg3);
             
             request.getRequestDispatcher("/WEB-INF/bookDemands.jsp").forward(request, response);
+        }
+        
+        else if (request.getParameter("tbl").equals("CreateDailyReport")){
+            
+            
         }
         
         else if (request.getParameter("tbl").equals("ChangeJourneyPrice")){
