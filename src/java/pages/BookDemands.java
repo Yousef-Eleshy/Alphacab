@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.GoogleMapsAPI;
-import model.Main;
+import model.Jdbc;
 
 /**
  *
@@ -51,7 +51,7 @@ public class BookDemands extends HttpServlet {
         //Useful queries
         String qry1 = "select name, registration from DRIVERS";
         String qry2 = "select * from DEMANDS where Status='Outstanding'";
-        String qry3 = "select * from JOURNEY";
+        String qry3 = "select * from JOURNEY where Status ='Booked'";
         
         //String qry6 = "SELECT Drivers.Name, Drivers.Registration FROM Drivers LEFT JOIN Journey ON Journey.Registration = Drivers.Registration LEFT JOIN Demands ON Demands.Time = Journey.Time WHERE Demands.id IS NULL";
         

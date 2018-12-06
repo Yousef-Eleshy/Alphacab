@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -104,10 +105,111 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      
+    public void updateJourneyStatus(String str) {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("Update Journey Set Status='Invoiced' where JID=?",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, str); 
+            ps.executeUpdate();
+        
+            ps.close();
+            System.out.println("1 rows updated.");
+        } catch (SQLException ex) {
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }   
+    
+    public void generateInvoice(String JID){
+        
+         PreparedStatement ps = null;
+        try {
+                     
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Invoices");
+            rs.next();
+            int count = rs.getInt("rowcount");
+            rs.close();
+            
+            Statement stmt2 = connection.createStatement();
+            ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Journey WHERE JID = "+JID+"");
+            rs2.next();
+            int id = rs2.getInt("custID");
+            rs2.close();
+            
+            String qry1 = findSpecificDetail(("select name from Customer where id ="+id+""),"name");
+            String qry2 = findSpecificDetail(("select address from Journey where jid ="+JID+""),"address");
+            String qry3 = findSpecificDetail(("select destination from Journey where jid ="+JID+""),"destination");
+            String qry4 = findSpecificDetail(("select date from Journey where jid ="+JID+""),"date");
+            String qry5 = findSpecificDetail(("select time from Journey where jid ="+JID+""),"time");
+            String qry6 = findSpecificDetail(("select price from Journey where jid ="+JID+""),"price");
+            
+            Integer journeyID = Integer.parseInt(JID);
+            
+            Double price = Double.parseDouble(qry6);
+            Double vat = price * 1.2;
+            
+            ps = connection.prepareStatement("INSERT INTO Invoices VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, count+1); 
+            ps.setInt(2, journeyID);
+            ps.setInt(3, id);
+            ps.setString(4, qry1);
+            ps.setString(5, qry2);
+            ps.setString(6, qry3);
+            ps.setString(7, qry4);
+            ps.setString(8, qry5);
+            ps.setDouble(9, price);
+            ps.setDouble(10, vat);
+            ps.executeUpdate(); 
+            //connection.commit();
+            ps.close();
+            System.out.println("1 row added.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        updateJourneyStatus(JID);
+             
+    }
+    
+    public void createDailyReport(){
+        PreparedStatement ps = null;
+        LocalDate today = LocalDate.now();
+        String date = today.toString();
+        double total = 0;
+        int numCustomers = 0;
+        try {                 
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Dailyreports");
+            rs.next();
+            int count = rs.getInt("rowcount");
+            rs.close();
+            
+            Statement stmt2 = connection.createStatement();
+            ResultSet rs2 = stmt2.executeQuery("SELECT Pricevat AS Price FROM Invoices WHERE Date ='"+date+"'");
+            rs2.next();
+            double price = rs2.getDouble("Price");
+            total +=price;
+            numCustomers++;
+            rs2.close();
+                       
+            ps = connection.prepareStatement("INSERT INTO DAILYREPORTS VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, count+1); 
+            ps.setDouble(2, total);
+            ps.setInt(3, numCustomers);
+            ps.setString(4, date);      
+            ps.executeUpdate(); 
+            //connection.commit();
+            ps.close();
+            System.out.println("1 row added.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }
         
     //Retrieve from database
     public String retrieve(String query) throws SQLException {
@@ -126,12 +228,12 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
        
-    public String findDemandDetail(String query,String detail) {
+    public String findSpecificDetail(String query,String detail) {
         
         String result = "";
         try {
@@ -158,7 +260,7 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -173,7 +275,7 @@ public class Admin {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -190,7 +292,7 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -238,17 +340,19 @@ public class Admin {
     public void insertDemand(String[] str){
         PreparedStatement ps = null;
         try {
+            
+            String qry1 = findSpecificDetail(("select name from DEMANDS where id ="+str[0]+""),"name");
+            String qry2 = findSpecificDetail(("select address from DEMANDS where id ="+str[0]+""),"address");
+            String qry3 = findSpecificDetail(("select destination from DEMANDS where id ="+str[0]+""),"destination");
+            String qry4 = findSpecificDetail(("select date from DEMANDS where id ="+str[0]+""),"date");
+            String qry5 = findSpecificDetail(("select time from DEMANDS where id ="+str[0]+""),"time");
+            
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS rowcount FROM Journey");
             rs.next();
             int count = rs.getInt("rowcount");
             rs.close();      
-               
-            String qry1 = findDemandDetail(("select name from DEMANDS where id ="+str[0]+""),"name");
-            String qry2 = findDemandDetail(("select address from DEMANDS where id ="+str[0]+""),"address");
-            String qry3 = findDemandDetail(("select destination from DEMANDS where id ="+str[0]+""),"destination");
-            String qry4 = findDemandDetail(("select date from DEMANDS where id ="+str[0]+""),"date");
-            String qry5 = findDemandDetail(("select time from DEMANDS where id ="+str[0]+""),"time");
+              
             
             Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery("SELECT ID AS custID FROM Customer WHERE name = '"+qry1+"'");
@@ -264,8 +368,7 @@ public class Admin {
             
             if (theDistance < 5.0){
                 fee += 2.0;
-            }
-            
+            }           
             ps = connection.prepareStatement("INSERT INTO Journey VALUES (?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, (count+1));           
             ps.setInt(2, id);
@@ -283,10 +386,10 @@ public class Admin {
             System.out.println("1 row added.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
-        }    
+        }   
     }
     
     public void updateDemandStatus(String str) {
@@ -299,7 +402,7 @@ public class Admin {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }   
     

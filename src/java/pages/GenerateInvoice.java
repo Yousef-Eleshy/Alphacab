@@ -7,21 +7,25 @@ package pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
-import model.Driver;
-import model.Jdbc;
+import model.GoogleMapsAPI;
 
 /**
  *
  * @author Sean
  */
-public class Update extends HttpServlet {
+@WebServlet(name = "generateInvoice", urlPatterns = {"/generateInvoice"})
+public class GenerateInvoice extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,89 +39,47 @@ public class Update extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
         //Get the login session
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        //Get database     
+        Admin admin = (Admin) session.getAttribute("dbbean2");
+                
         //Useful queries
-        String [] query = new String[5];
-        query[0] = (String)request.getParameter("username");
-        query[1] = (String)request.getParameter("password");
-        query[2] = (String)request.getParameter("newpasswd");
-        query[3] = (String)request.getParameter("currentPassword");
-        query[4] = (String)request.getParameter("usertype");
+        String query = (String) request.getParameter("id");
         
-        Customer customer = (Customer) session.getAttribute("dbbean"); 
-        
-        Admin admin = (Admin) session.getAttribute("dbbean2"); 
-        
-        Driver driver = (Driver) session.getAttribute("dbbean3");
+        String qry1 = "select * from invoices where jid = "+query+"";
         
         //If session is invalidated, redirect to index
         if (user == null) {
             request.setAttribute("msg", "Session has ended.  Please login.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-              
-        //If connection fails, display error message
-        if (customer == null)
+        
+        //If connection fails, display error
+        if (admin == null) {
             request.getRequestDispatcher("/WEB-INF/conErr.jsp").forward(request, response);
-
-        //Check password length is appropriate
-        else if(query[1].length() < 5)
-        {
-            request.setAttribute("msg", "Password must be at least 5 characters long");  
         }
         
-        else if (query[1].equals("") || query[2].equals("") || query[3].equals("") || query[4].equals("")){
-            request.setAttribute("msg", "All fields all mandatory");  
-        }
-
-        //Check if the inputted passwords are the same
-        else if(!query[2].trim().equals(query[1].trim())) {
-            request.setAttribute("msg", "The passwords do not match"); 
-        }
-
-        //Check administrator credentials
-        if (query[4].equals("Administrator"))
-        {
-            if (!admin.existsAdmin(query[0]))
-            {
-                request.setAttribute("msg", query[0]+" The inputted username does not exist");
-            }
-            else{
-                admin.updateAdmin(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
-            }
-        }
-
-        //Check customer credentials
-        else if (query[4].equals("Customer")){
-            if (!customer.existsCustomer(query[0]))
-            {
-                request.setAttribute("msg", query[0]+" The inputted username does not exist");
-            }
-            else{
-                customer.updateCustomer(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
-            }
-        }
-
-        //Check driver credentials
-        else if (query[4].equals("Driver")){
-            if (!driver.existsDriver(query[0]))
-            {
-                request.setAttribute("msg", query[0]+" The inputted username does not exist");
-            }
-            else{
-                driver.updateDriver(query);     
-                request.setAttribute("msg", ""+query[0]+"'s password has been changed");
-            }
+        else if (query.equals("")){
+            request.setAttribute("msg", "A journey ID must be inputted");
+            request.getRequestDispatcher("/WEB-INF/generateInvoice.jsp").forward(request, response);
         }
         
-        //Direct to password change jsp
-        request.getRequestDispatcher("/WEB-INF/passwdChange.jsp").forward(request, response); 
+        else{
+            request.setAttribute("msg", "Invoice has been generated");
+            admin.generateInvoice(query);
+            String msg="No drivers";
+            try {
+                msg = admin.retrieve(qry1);
+            } catch (SQLException ex) {
+                Logger.getLogger(GenerateInvoice.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+        }
+        request.getRequestDispatcher("/WEB-INF/viewInvoice.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

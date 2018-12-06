@@ -7,6 +7,7 @@ package pages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
 import model.Driver;
-import model.Main;
+import model.Jdbc;
 
 /**
  *
@@ -39,7 +40,7 @@ public class Login extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         String user = (String) session.getAttribute("loggedInUser");
-        
+               
         //Useful queries
         String[] query = new String[3];
         query[0] = (String) request.getParameter("username");
@@ -64,7 +65,7 @@ public class Login extends HttpServlet {
         //Check administrator login credentials
         if (query[2].equals("Administrator")) {
             if (!admin.existsAdmin(query[0])) {
-                request.setAttribute("msg", query[0] + " Username does not exist");
+                request.setAttribute("msg", query[0] + " username does not exist");
             }
             else if (!admin.checkAdminPassword(query[0], query[1])) {
                 request.setAttribute("msg", "Username and password not valid");

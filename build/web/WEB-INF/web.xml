@@ -52,6 +52,10 @@
         <servlet-name>ChangeJourneyPrice</servlet-name>
         <servlet-class>pages.ChangeJourneyPrice</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GenerateInvoice</servlet-name>
+        <servlet-class>pages.GenerateInvoice</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login.do</url-pattern>
@@ -99,6 +103,10 @@
     <servlet-mapping>
         <servlet-name>ChangeJourneyPrice</servlet-name>
         <url-pattern>/ChangeJourneyPrice.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenerateInvoice</servlet-name>
+        <url-pattern>/GenerateInvoice.do</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>LoginFilter</filter-name>

@@ -176,7 +176,7 @@ public class Customer {
             System.out.println("1 row added.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
     
@@ -192,7 +192,7 @@ public class Customer {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

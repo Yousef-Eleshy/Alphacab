@@ -20,7 +20,7 @@ import model.Admin;
 import model.Customer;
 import model.Driver;
 import model.GoogleMapsAPI;
-import model.Main;
+import model.Jdbc;
 
 
 /**
@@ -45,7 +45,7 @@ public class UserServLet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-//        Main dbBean = new Main();
+//        Jdbc dbBean = new Jdbc();
 //        dbBean.connect((Connection)request.getServletContext().getAttribute("connection"));
 //        session.setAttribute("dbbean", dbBean);
         

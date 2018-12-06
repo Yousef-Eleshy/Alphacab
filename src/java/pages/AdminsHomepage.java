@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
-import model.Main;
+import model.Jdbc;
 import model.GoogleMapsAPI;
 
 /**
@@ -45,12 +45,17 @@ public class AdminsHomepage extends HttpServlet {
         HttpSession session = request.getSession();
         String user = (String) session.getAttribute("loggedInUser");
         
+        LocalDate today = LocalDate.now();
+        String date = today.toString();
+        
         //Useful queries
         String qry1 = "select * from CUSTOMER";
         String qry2 = "select * from DRIVERS";
         String qry3 = "select * from DEMANDS where Status='Outstanding'";
-        String qry5 = "select * from JOURNEY";
+        String qry4 = "select Registration, name from DRIVERS";
+        String qry5 = "select * from Dailyreports where Date = '"+date+"'";
         String qry6 = "select * from JOURNEY where Status ='Booked'";
+        String qry7 = "select * from JOURNEY where Status = 'Completed'";
                 
         //Admin Bean
         Admin admin = (Admin) session.getAttribute("dbbean2");
@@ -94,8 +99,8 @@ public class AdminsHomepage extends HttpServlet {
             String msg3="No drivers";
             try {
                 msg = admin.retrieve(qry3);
-                msg2 = admin.retrieve(qry5);
-                msg3 = admin.retrieve(qry2);
+                msg2 = admin.retrieve(qry6);
+                msg3 = admin.retrieve(qry4);
             } catch (SQLException ex) {
                 Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -107,10 +112,31 @@ public class AdminsHomepage extends HttpServlet {
         }
         
         else if (request.getParameter("tbl").equals("CreateDailyReport")){
-            
-            
+            admin.createDailyReport();
+            String msg="No Reports";
+            try {
+                msg = admin.retrieve(qry5);;
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+            //request.getRequestDispatcher("/WEB-INF/viewDailyReport.jsp").forward(request, response);
         }
         
+        else if (request.getParameter("tbl").equals("CreateCustomerInvoice")){
+            
+            String msg="No journeys";
+            try {
+                msg = admin.retrieve(qry7);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminsHomepage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("query", msg);
+          
+            request.getRequestDispatcher("/WEB-INF/generateInvoice.jsp").forward(request, response);
+        }
+              
         else if (request.getParameter("tbl").equals("ChangeJourneyPrice")){
             String msg="No journeys";
             try {

@@ -32,17 +32,17 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author me-aydin
  */
-public class Main {
+public class Jdbc {
     
 //    Connection connection = null;
 //    Statement statement = null;
 //    ResultSet rs = null;
 //    
-//    public Main(String query){
+//    public Jdbc(String query){
 //        //this.query = query;
 //    }
 //
-//    public Main() {
+//    public Jdbc() {
 //        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 //    
@@ -128,10 +128,8 @@ public class Main {
     //Main
     public static void main(String[] args) throws SQLException {
      
-
-       
 //        
-//        Main jdbc = new Main(str);
+//        Jdbc jdbc = new Jdbc(str);
 //        Connection conn = null;
 //                try {
 //            Class.forName("org.apache.derby.jdbc.ClientDriver");

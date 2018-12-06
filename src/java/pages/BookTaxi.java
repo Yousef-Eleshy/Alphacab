@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Customer;
 import model.GoogleMapsAPI;
-import model.Main;
+import model.Jdbc;
 
 /**
  *

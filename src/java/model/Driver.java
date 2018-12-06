@@ -101,7 +101,7 @@ public class Driver {
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -110,13 +110,13 @@ public class Driver {
     public boolean existsJourney(String j) {
         boolean bool = false;
         try  {
-            select("select JID from Journey where JID="+j+" and Status='Outstanding'");
+            select("select JID from Journey where JID="+j+" and Status='Booked'");
             if(rs.next()) {
                 System.out.println("TRUE");         
                 bool = true;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bool;
     }
@@ -135,7 +135,7 @@ public class Driver {
             System.out.println("1 row added.");
         } catch (SQLException ex) {
             ex.printStackTrace();
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
     
@@ -151,7 +151,7 @@ public class Driver {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -166,7 +166,7 @@ public class Driver {
             ps.close();
             System.out.println("1 rows updated.");
         } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jdbc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }   
            
